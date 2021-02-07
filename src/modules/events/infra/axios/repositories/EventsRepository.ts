@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+// Errors
+import EventNotFoundError from '@modules/events/errors/EventNotFoundError';
+import AppError from '@shared/errors/AppError';
+
 // Repositories
 import IEventsRepository from '@modules/events/repositories/IEventsRepository';
 
@@ -9,14 +13,17 @@ import Event from '@modules/events/infra/entities/Event';
 // Interfaces
 
 export default class EventsRepository implements IEventsRepository {
-  // private ormRepository: Repository<User>;
+  public async fetchEvent(event_slug: string): Promise<Event> {
+    try {
+      const event = await axios.get(
+        `http://localhost:3334/api/events/${event_slug}`,
+      );
+      return event.data;
+    } catch (err) {
+      if (err.response.status === 404) throw new EventNotFoundError();
 
-  // constructor() {
-  //   this.ormRepository = getRepository(User);
-  // }
-
-  public async fetchEvent(event_id: string): Promise<Event> {
-    // TODO:
+      throw new AppError(`API error: ${err}`, 500);
+    }
   }
 
   public async fetchEvents(): Promise<Event[]> {
@@ -24,7 +31,7 @@ export default class EventsRepository implements IEventsRepository {
       const events = await axios.get('http://localhost:3334/api/events');
       return events.data;
     } catch (err) {
-      console.log(err);
+      throw new AppError(`API error: ${err}`, 500);
     }
   }
 }

@@ -7,5 +7,6 @@ const eventsRouter = Router();
 const eventsController = new EventsController();
 
 eventsRouter.get('/', eventsController.index);
+eventsRouter.get('/:event_slug', eventsController.show);
 
 export default eventsRouter;

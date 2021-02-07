@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { classToClass } from 'class-transformer';
 
 // Services
 import GetAllEventsService from '@modules/events/services/GetAllEventsService';
+import GetOneEventService from '@modules/events/services/GetOneEventService';
 
 export default class EventsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -15,8 +15,12 @@ export default class EventsController {
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
-    const { event_id } = request.params;
+    const { event_slug } = request.params;
 
-    // get event information
+    const getOneEvent = container.resolve(GetOneEventService);
+
+    const event = await getOneEvent.execute({ event_slug });
+
+    return response.json({ event });
   }
 }
