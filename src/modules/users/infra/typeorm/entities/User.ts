@@ -12,32 +12,27 @@ import { Exclude, Expose } from 'class-transformer';
 
 // Configs
 import uploadConfig from '@config/upload';
+import Entrance from '@modules/entrance/infra/typeorm/entities/Entrance';
 
 // Entitites
 
-@Entity('users')
+@Entity('usuarios')
 class User {
   @PrimaryGeneratedColumn('uuid')
-  @Exclude()
   id: string;
+
+  @Column()
+  nome: string;
 
   @Column()
   email: string;
 
   @Column()
-  @Exclude()
-  password: string;
+  cpf: string;
 
-  @Column()
-  role: string;
-
-  // owner = [client, instructor]
   @Column()
   @Exclude()
-  owner: string;
-
-  @Column()
-  owner_id: string;
+  senha: string;
 
   @Column()
   avatar: string;
@@ -64,6 +59,8 @@ class User {
   }
 
   // Relationships
+  @OneToMany(() => Entrance, entrance => entrance.user)
+  entrance: Entrance[];
 }
 
 export default User;
