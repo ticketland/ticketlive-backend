@@ -29,12 +29,6 @@ class CreateEntranceService {
     event_id,
     participant_id,
   }: IRequest): Promise<Entrance> {
-    const checkUsedTicket = await this.entranceRepository.findByTicketID(
-      ticket_id,
-    );
-
-    if (checkUsedTicket) throw new TicketAlreadyUsedError();
-
     const entrance = await this.entranceRepository.create({
       usuario_id: user_id,
       ingresso_id: ticket_id,
