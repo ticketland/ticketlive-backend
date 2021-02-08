@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import multer from 'multer';
 
+import userCashRegisterRouter from '@modules/cashregisters/infra/http/routes/user.cash.registers.routes';
+
 // Configs
 import uploadConfig from '@config/upload';
 
@@ -20,5 +22,7 @@ usersRouter.patch(
   userAvatarContoller.update,
 );
 usersRouter.get('/me', userController.show);
+
+usersRouter.use(userCashRegisterRouter);
 
 export default usersRouter;
