@@ -40,7 +40,7 @@ class AuthenticateUserService {
 
     const passwordMatched = await this.hashProvider.compareHash(
       password,
-      user.password,
+      user.senha,
     );
 
     if (!passwordMatched) {
@@ -50,7 +50,7 @@ class AuthenticateUserService {
     const { secret, expiresIn } = authConfig.jwt;
 
     const token = sign({}, secret, {
-      subject: `${user.id.toString()},${user.role.toString()}`,
+      subject: `${user.id.toString()}`,
       expiresIn,
     });
 
