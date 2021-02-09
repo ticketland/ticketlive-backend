@@ -5,3 +5,4 @@ import '@modules/users/providers';
 import '@modules/events/providers';
 import '@modules/sales/providers';
 import '@modules/cashregisters/providers';
+import '@modules/tickets/providers';

@@ -1,3 +1,9 @@
 import { container } from 'tsyringe';
 
-// import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
+import ITicketsReservationRepository from '@modules/tickets/repositories/ITicketsReservationRepository';
+import TicketsReservationRepository from '@modules/tickets/infra/axios/repositories/TicketsReservationRepository';
+
+container.registerSingleton<ITicketsReservationRepository>(
+  'TicketsReservationRepository',
+  TicketsReservationRepository,
+);

@@ -13,6 +13,7 @@ import validateTicketRouter from '@modules/tickets/infra/http/routes/validate.ti
 import paymentMethodRouter from '@modules/sales/infra/http/routes/payment.methods.routes';
 import operationRouter from '@modules/cashregisters/infra/http/routes/operations.routes';
 import cashregisterRouter from '@modules/cashregisters/infra/http/routes/cash.registers.routes';
+import ticketReservationRouter from '@modules/tickets/infra/http/routes/ticket.reservation.routes';
 
 const routes = Router();
 
@@ -24,6 +25,7 @@ routes.use('/tickets/validate', validateTicketRouter);
 routes.use('/payment_methods', paymentMethodRouter);
 routes.use('/operations', operationRouter);
 routes.use('/cashregisters', [ensureAuthenticated], cashregisterRouter);
+routes.use('/reservations', [ensureAuthenticated], ticketReservationRouter);
 // routes.use('/transactions', transactionRouter)
 
 export default routes;
