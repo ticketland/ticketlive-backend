@@ -4,6 +4,7 @@
 
 ```sh
 # Rodar script do banco
+psql -U username -d myDataBase -a -f scriptDB.sql
 
 # Install dependencies
 npm install || yarn
