@@ -15,19 +15,18 @@ import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
 export default class TicketsReservationRepository
   implements ITicketsReservationRepository {
   public async sendResevationRequest(
-    reservation: TicketReservation,
+    reservationRequest: TicketReservation,
   ): Promise<string> {
     try {
-      const reservation = await axios.post(
+      const reservationResponse = await axios.post(
         'http://localhost:3334/api/reservations/',
         {
-          reservation,
+          reservationRequest,
         },
       );
-     
-      return reservation.data;
-    } catch (err) {
 
+      return reservationResponse.data;
+    } catch (err) {
       throw new AppError(`API error: ${err}`, 500);
     }
   }
@@ -36,7 +35,14 @@ export default class TicketsReservationRepository
     reservation_id: string,
   ): Promise<Ticket[]> {
     try {
-      
+      const completeReservation = await axios.put(
+        `http://localhost:3334/api/reservations/${reservation_id}`,
+        {
+          status: 'completed',
+        },
+      );
+
+      return completeReservation.data.tickets;
     } catch (err) {
       throw new AppError(`API error: ${err}`, 500);
     }

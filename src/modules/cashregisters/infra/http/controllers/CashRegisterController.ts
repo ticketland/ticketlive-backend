@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import queryParams from 'query-string';
 
 // Services
 import ShowAllCashRegistersService from '@modules/cashregisters/services/ShowAllCashRegistersService';
@@ -8,11 +9,11 @@ import UpdateCashRegisterService from '@modules/cashregisters/services/UpdateCas
 
 export default class CashRegisterController {
   public async index(request: Request, response: Response): Promise<Response> {
-    // const filters: string[] = request.query.filters as string[];
+    const { user_id, state } = queryParams.parseUrl(request.originalUrl).query;
 
     const showCashRegisters = container.resolve(ShowAllCashRegistersService);
 
-    const cashRegisters = await showCashRegisters.execute();
+    const cashRegisters = await showCashRegisters.execute({ user_id, state });
 
     return response.json({ cashRegisters });
   }

@@ -7,6 +7,7 @@ import ICashRegistersRepository from '@modules/cashregisters/repositories/ICashR
 import ICreateCashRegisterDTO from '@modules/cashregisters/dtos/ICreateCashRegisterDTO';
 
 // Models
+import IFilterCashRegisterDTO from '@modules/cashregisters/dtos/IFilterCashRegisterDTO';
 import CashRegister from '../entities/CashRegister';
 
 export default class CashRegistersRepository
@@ -25,37 +26,22 @@ export default class CashRegistersRepository
     return foundCashRegister;
   }
 
-  public async findCashRegisterFromUser(
-    user_id: string,
-    filters: string[],
-  ): Promise<CashRegister[]> {
-    const foundCashRegister = await this.ormRepository
+  public async all({
+    user_id,
+    state,
+  }: IFilterCashRegisterDTO): Promise<CashRegister[]> {
+    const cashRegisters = await this.ormRepository
       .createQueryBuilder('cashregister')
       .innerJoin('cashregister.user', 'user')
       .where(
         new Brackets(qb => {
-          qb.where('user.id = :user_id', { user_id });
-          if (filters) {
-            filters.forEach(filter => {
-              switch (filter) {
-                case 'closed':
-                  qb.andWhere('cashregister.closed_at is not null');
-                  break;
-                default:
-                  qb.andWhere('cashregister.closed_at is null');
-                  break;
-              }
-            });
-          }
+          if (user_id) qb.where('user.id = :user_id', { user_id });
+          if (state === 'closed')
+            qb.andWhere('cashregister.closed_at is not null');
+          else qb.andWhere('cashregister.closed_at is null');
         }),
       )
       .getMany();
-
-    return foundCashRegister;
-  }
-
-  public async all(): Promise<CashRegister[]> {
-    const cashRegisters = await this.ormRepository.find();
 
     return cashRegisters;
   }
