@@ -49,6 +49,7 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     return response.status(err.statusCode).json({
       status: 'error',
       message: err.message,
+      details: err.details,
     });
   }
 

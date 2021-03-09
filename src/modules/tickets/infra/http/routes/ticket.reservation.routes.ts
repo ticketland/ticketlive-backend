@@ -7,5 +7,13 @@ const ticketReservationRouter = Router();
 const ticketReservationController = new TicketReservationController();
 
 ticketReservationRouter.post('/', ticketReservationController.create);
+ticketReservationRouter.get(
+  '/:reservation_id',
+  ticketReservationController.show,
+);
+ticketReservationRouter.delete(
+  '/:reservation_id',
+  ticketReservationController.delete,
+);
 
 export default ticketReservationRouter;
