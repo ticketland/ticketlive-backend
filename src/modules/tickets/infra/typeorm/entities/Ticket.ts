@@ -14,9 +14,10 @@ import { Exclude, Expose } from 'class-transformer';
 import uploadConfig from '@config/upload';
 
 // Entitites
+import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 @Entity('tickets')
-class User {
+class Ticket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -32,10 +33,13 @@ class User {
   @Column()
   setor: string;
 
+  @Column()
+  codigo: string;
+
   @CreateDateColumn({ type: 'timestamptz', select: false })
   data: Date;
 
   // Relationships
 }
 
-export default User;
+export default Ticket;

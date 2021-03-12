@@ -11,6 +11,10 @@ ticketReservationRouter.get(
   '/:reservation_id',
   ticketReservationController.show,
 );
+// ticketReservationRouter.put(
+//   '/:reservation_id',
+//   ticketReservationController.update,
+// );
 ticketReservationRouter.delete(
   '/:reservation_id',
   ticketReservationController.delete,

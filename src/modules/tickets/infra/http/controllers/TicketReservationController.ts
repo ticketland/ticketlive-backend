@@ -36,21 +36,20 @@ export default class TicketReservationController {
     return response.json(reservation);
   }
 
-  public async update(request: Request, response: Response): Promise<Response> {
-    const { id: user_id } = request.user;
-    const { status } = request.body;
+  // public async update(request: Request, response: Response): Promise<Response> {
+  //   const { id: user_id } = request.user;
+  //   const { status } = request.body;
 
-    const createTicketReservation = container.resolve(
-      CreateTicketReserationService,
-    );
+  //   const updateTicketReservation = container.resolve(
+  //     UpdateTicketReservationService,
+  //   );
 
-    const reservation = await createTicketReservation.execute({
-      user_id,
-      tickets,
-    });
+  //   const tickets = await updateTicketReservation.execute({
+  //     status,
+  //   });
 
-    return response.json(reservation);
-  }
+  //   return response.json(reservation);
+  // }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { reservation_id } = request.params;

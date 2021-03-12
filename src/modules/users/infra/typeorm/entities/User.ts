@@ -12,9 +12,10 @@ import { Exclude, Expose } from 'class-transformer';
 
 // Configs
 import uploadConfig from '@config/upload';
-import Entrance from '@modules/entrance/infra/typeorm/entities/Entrance';
 
 // Entitites
+import Entrance from '@modules/entrance/infra/typeorm/entities/Entrance';
+import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 @Entity('usuarios')
 class User {
@@ -61,6 +62,9 @@ class User {
   // Relationships
   @OneToMany(() => Entrance, entrance => entrance.user)
   entrance: Entrance[];
+
+  @OneToMany(() => Sale, venda => venda.user)
+  vendas: Sale[];
 }
 
 export default User;

@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 // Errors
 import AppError from '@shared/errors/AppError';
-import TicketNotAvailableError from '@modules/tickets/errors/TicketNotAvailableError';
-import TicketNotValidError from '@modules/tickets/errors/TicketNotValidError';
+import UnavailableTicketError from '@modules/tickets/errors/UnavailableTicketError';
+import InvalidTicketError from '@modules/tickets/errors/InvalidTicketError';
 
 // DTOs
 import ISendTicketsReservationDTO from '@modules/tickets/dtos/ISendTicketsReservationDTO';
@@ -14,16 +14,26 @@ import ITicketsReservationRepository from '@modules/tickets/repositories/ITicket
 // Models
 import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
 
-// Interfaces
+// Config
+import ticketlandConfig from '@config/ticketland';
+import NotFoundError from '@shared/errors/NotFoundError';
 
 export default class TicketsReservationRepository
   implements ITicketsReservationRepository {
+  private ticketlandAPI: AxiosInstance;
+
+  constructor() {
+    this.ticketlandAPI = axios.create({
+      baseURL: ticketlandConfig.api.url,
+    });
+  }
+
   public async sendResevationRequest(
     reservationRequest: ISendTicketsReservationDTO,
   ): Promise<string> {
     try {
-      const reservationResponse = await axios.post(
-        'http://localhost:3334/api/reservations/',
+      const reservationResponse = await this.ticketlandAPI.post(
+        '/reservations/',
         {
           reservationRequest,
         },
@@ -32,14 +42,14 @@ export default class TicketsReservationRepository
       return reservationResponse.data;
     } catch (err) {
       if (err.response.data.error_code === 'tickets_unavailable')
-        throw new TicketNotAvailableError(
+        throw new UnavailableTicketError(
           undefined,
           undefined,
           err.response.data.tickets,
         );
 
       if (err.response.data.error_code === 'tickets_notvalid')
-        throw new TicketNotValidError();
+        throw new InvalidTicketError();
 
       throw new AppError(`API error: ${err}`, 500);
     }
@@ -49,8 +59,8 @@ export default class TicketsReservationRepository
     reservation_id: string,
   ): Promise<any> {
     try {
-      const cancelReservation = await axios.delete(
-        `http://localhost:3334/api/reservations/${reservation_id}`,
+      const cancelReservation = await this.ticketlandAPI.delete(
+        `/reservations/${reservation_id}`,
       );
 
       return cancelReservation.status;
@@ -61,12 +71,13 @@ export default class TicketsReservationRepository
 
   public async fetchReservation(reservation_id: string): Promise<any> {
     try {
-      const fetchReservation = await axios.get(
-        `http://localhost:3334/api/reservations/${reservation_id}`,
+      const fetchReservation = await this.ticketlandAPI.get(
+        `/reservations/${reservation_id}`,
       );
 
       return fetchReservation.data;
     } catch (err) {
+      if (err.response.status === 404) throw new NotFoundError();
       throw new AppError(`API error: ${err}`, 500);
     }
   }
@@ -76,7 +87,7 @@ export default class TicketsReservationRepository
   ): Promise<Ticket[]> {
     try {
       const completeReservation = await axios.put(
-        `http://localhost:3334/api/reservations/${reservation_id}`,
+        `/reservations/${reservation_id}`,
         {
           status: 'completed',
         },
