@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+
+import Sale from './Sale';
 
 @Entity('metodos_pagamento')
 class PaymentMethod {
@@ -7,6 +9,9 @@ class PaymentMethod {
 
   @Column()
   tipo: string;
+
+  @OneToMany(() => Sale, venda => venda.metodoPagamento)
+  vendas: Sale[];
 }
 
 export default PaymentMethod;
