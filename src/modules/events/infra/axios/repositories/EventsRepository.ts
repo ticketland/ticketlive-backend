@@ -1,8 +1,4 @@
-import axios from 'axios';
-
-// Errors
-import EventNotFoundError from '@modules/events/errors/EventNotFoundError';
-import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
 
 // Repositories
 import IEventsRepository from '@modules/events/repositories/IEventsRepository';
@@ -10,28 +6,26 @@ import IEventsRepository from '@modules/events/repositories/IEventsRepository';
 // Models
 import Event from '@modules/events/infra/entities/Event';
 
-// Interfaces
+// Providers
+import IHttpProvider from '@shared/container/providers/HttpProvider/models/IHttpProvider';
 
+@injectable()
 export default class EventsRepository implements IEventsRepository {
-  public async fetchEvent(event_slug: string): Promise<Event> {
-    try {
-      const event = await axios.get(
-        `http://localhost:3334/api/events/${event_slug}`,
-      );
-      return event.data;
-    } catch (err) {
-      if (err.response.status === 404) throw new EventNotFoundError();
+  constructor(
+    @inject('HttpProvider')
+    private httpProvider: IHttpProvider,
+  ) {}
 
-      throw new AppError(`API error: ${err}`, 500);
-    }
+  public async fetchEvent(event_slug: string): Promise<Event> {
+    const event = await this.httpProvider
+      .callAPI()
+      .get(`/events/${event_slug}`);
+    return event.data;
   }
 
   public async fetchEvents(): Promise<Event[]> {
-    try {
-      const events = await axios.get('http://localhost:3334/api/events');
-      return events.data;
-    } catch (err) {
-      throw new AppError(`API error: ${err}`, 500);
-    }
+    const events = await this.httpProvider.callAPI().get('/events');
+
+    return events.data;
   }
 }
