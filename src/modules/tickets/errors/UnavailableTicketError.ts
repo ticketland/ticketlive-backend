@@ -9,7 +9,7 @@ interface ITicket {
   }[];
 }
 
-class TicketNotAvailableError extends AppError {
+class UnavailableTicketError extends AppError {
   constructor(
     message = 'Some ticket are unavailable. Check tickets for details!',
     statusCode = 403,
@@ -19,4 +19,4 @@ class TicketNotAvailableError extends AppError {
   }
 }
 
-export default TicketNotAvailableError;
+export default UnavailableTicketError;
