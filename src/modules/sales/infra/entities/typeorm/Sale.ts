@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import User from '@modules/users/infra/typeorm/entities/User';
+import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
 import PaymentMethod from './PaymentMethod';
 
 @Entity('vendas')
@@ -36,6 +37,9 @@ class Sale {
   @ManyToOne(() => PaymentMethod, metodoPagamento => metodoPagamento.vendas)
   @JoinColumn({ name: 'metodo_pagamento_id' })
   metodoPagamento: PaymentMethod;
+
+  @OneToMany(() => Ticket, ingresso => ingresso.venda)
+  ingressos: Ticket[];
 }
 
 export default Sale;

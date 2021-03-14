@@ -14,6 +14,7 @@ import paymentMethodRouter from '@modules/sales/infra/http/routes/payment.method
 import operationRouter from '@modules/cashregisters/infra/http/routes/operations.routes';
 import cashregisterRouter from '@modules/cashregisters/infra/http/routes/cash.registers.routes';
 import ticketReservationRouter from '@modules/reservations/infra/http/routes/reservations.routes';
+import salesRouter from '@modules/sales/infra/http/routes/sales.routes';
 
 const routes = Router();
 
@@ -26,6 +27,6 @@ routes.use('/payment_methods', paymentMethodRouter);
 routes.use('/operations', operationRouter);
 routes.use('/cashregisters', [ensureAuthenticated], cashregisterRouter);
 routes.use('/reservations', [ensureAuthenticated], ticketReservationRouter);
-// routes.use('/transactions', transactionRouter)
+routes.use('/sales', [ensureAuthenticated], salesRouter);
 
 export default routes;

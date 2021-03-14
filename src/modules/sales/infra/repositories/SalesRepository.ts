@@ -7,7 +7,7 @@ import ISalesRepository from '@modules/sales/repositories/ISalesRepository';
 import ICreateSaleDTO from '@modules/sales/dtos/ICreateSaleDTO';
 
 // Models
-import Sale from '../entities/Sale';
+import Sale from '@modules/sales/infra/entities/typeorm/Sale';
 
 export default class EntranceRepository implements ISalesRepository {
   private ormRepository: Repository<Sale>;
@@ -29,7 +29,12 @@ export default class EntranceRepository implements ISalesRepository {
   }
 
   public async findByID(id: string): Promise<Sale | undefined> {
-    const foundSale = await this.ormRepository.findOne(id);
+    const foundSale = await this.ormRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['ingressos'],
+    });
 
     return foundSale;
   }

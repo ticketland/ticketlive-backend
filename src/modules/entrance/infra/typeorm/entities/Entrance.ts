@@ -10,7 +10,7 @@ import {
 
 // Entitites
 import User from '@modules/users/infra/typeorm/entities/User';
-import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
+import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
 
 @Entity('entradas')
 class Entrance {

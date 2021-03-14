@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 
 // populado pela API
-class AvailableTicket {
+type TAvailableTicket = {
   id: number;
 
   name: string;
@@ -15,6 +15,6 @@ class AvailableTicket {
   created_at: Date;
 
   updated_at: Date;
-}
+};
 
-export default AvailableTicket;
+export default TAvailableTicket;

@@ -4,18 +4,19 @@ import { inject, injectable } from 'tsyringe';
 import NotFoundError from '@shared/errors/NotFoundError';
 
 // Entities
-import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
+import Sale from '@modules/sales/infra/entities/typeorm/Sale';
 
 // Repositories
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ISalesRepository from '@modules/sales/repositories/ISalesRepository';
 import IPaymentMethodsRepository from '@modules/sales/repositories/IPaymentMethodsRepository';
-import ITicketsReservationRepository from '@modules/tickets/repositories/ITicketsReservationRepository';
+import IReservationRepository from '@modules/reservations/repositories/IReservationsRepository';
+import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 
 interface IRequest {
-  metodo_pagamento_id: string;
-  participante_id?: string;
-  usuario_id: string;
+  payment_method_id: string;
+  participant_id?: string;
+  user_id: string;
   reservation_id: string;
 }
 
@@ -25,22 +26,25 @@ export default class CreateSaleService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('TicketsReservationRepository')
-    private ticketsReservationRepository: ITicketsReservationRepository,
+    @inject('ReservationsRepository')
+    private reservationsRepository: IReservationRepository,
 
     @inject('PaymentMethodsRepository')
     private paymentMethodsRepository: IPaymentMethodsRepository,
 
     @inject('SalesRepository')
     private salesRepository: ISalesRepository,
+
+    @inject('TicketsRepository')
+    private ticketsRepository: ITicketsRepository,
   ) {}
 
   public async execute({
-    metodo_pagamento_id,
-    participante_id,
-    usuario_id,
+    payment_method_id,
+    participant_id,
+    user_id,
     reservation_id,
-  }: IRequest): Promise<Ticket[]> {
+  }: IRequest): Promise<Sale> {
     /*
      * Verificar usuário e buscar o caixa aberto, talvez implementar middleware
      * para forcar caixa aberto e não haver risco de erro disparado aqui
@@ -50,29 +54,33 @@ export default class CreateSaleService {
      * retornar ingressos
      */
 
-    const user = await this.usersRepository.findByID(usuario_id, ['caixas']);
+    const user = await this.usersRepository.findByID(user_id, ['caixas']);
     if (!user) throw new NotFoundError();
 
     const paymentMethod = await this.paymentMethodsRepository.findByID(
-      metodo_pagamento_id,
+      payment_method_id,
     );
     if (!paymentMethod) throw new NotFoundError();
 
     // reservation not found already treated in Repository!
-    const reservation = await this.ticketsReservationRepository.fetchReservation(
+    const reservation = await this.reservationsRepository.findByIdOrFail(
       reservation_id,
     );
 
-    const tickets = await this.ticketsReservationRepository.sendReservationCompleteRequest(
+    const tickets = await this.reservationsRepository.sendReservationCompleteRequest(
       reservation_id,
     );
 
-    await this.salesRepository.create({
-      metodo_pagamento_id,
-      usuario_id,
-      participante_id,
+    const sale = await this.salesRepository.create({
+      metodo_pagamento_id: paymentMethod.id,
+      usuario_id: user.id,
+      participante_id: participant_id,
     });
+    await this.ticketsRepository.createMany(tickets, sale.id);
 
-    return tickets;
+    reservation.status = 'completed';
+    await this.reservationsRepository.save(reservation);
+
+    return this.salesRepository.findByID(sale.id);
   }
 }

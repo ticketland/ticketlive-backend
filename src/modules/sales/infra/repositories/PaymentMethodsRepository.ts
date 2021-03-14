@@ -7,7 +7,7 @@ import IPaymentMethodRepository from '@modules/sales/repositories/IPaymentMethod
 import ICreatePaymentMethodDTO from '@modules/sales/dtos/ICreatePaymentMethodDTO';
 
 // Models
-import PaymentMethod from '../entities/PaymentMethod';
+import PaymentMethod from '@modules/sales/infra/entities/typeorm/PaymentMethod';
 
 export default class EntranceRepository implements IPaymentMethodRepository {
   private ormRepository: Repository<PaymentMethod>;

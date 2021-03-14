@@ -6,3 +6,4 @@ import '@modules/events/providers';
 import '@modules/sales/providers';
 import '@modules/cashregisters/providers';
 import '@modules/reservations/providers';
+import '@modules/tickets/providers';

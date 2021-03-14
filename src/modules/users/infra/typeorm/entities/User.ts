@@ -15,7 +15,8 @@ import uploadConfig from '@config/upload';
 
 // Entitites
 import Entrance from '@modules/entrance/infra/typeorm/entities/Entrance';
-import Sale from '@modules/sales/infra/typeorm/entities/Sale';
+import Sale from '@modules/sales/infra/entities/typeorm/Sale';
+import CashRegister from '@modules/cashregisters/infra/typeorm/entities/CashRegister';
 
 @Entity('usuarios')
 class User {
@@ -65,6 +66,9 @@ class User {
 
   @OneToMany(() => Sale, venda => venda.user)
   vendas: Sale[];
+
+  @OneToMany(() => CashRegister, caixa => caixa.user)
+  caixas: CashRegister[];
 }
 
 export default User;

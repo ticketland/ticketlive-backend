@@ -1,5 +1,7 @@
 import { Entity, Column, CreateDateColumn, PrimaryColumn } from 'typeorm';
 
+import TAvailableTicket from '../AvailableTicket';
+
 @Entity('reservas')
 class Reservation {
   @PrimaryColumn()
@@ -9,12 +11,12 @@ class Reservation {
   usuario_id: string;
 
   @Column()
-  status: 'waiting' | 'complete';
+  status: 'waiting' | 'completed';
 
   @CreateDateColumn({ type: 'timestamptz', select: false })
   created_at: Date;
 
-  reservationTickets?: TReservationTicket;
+  reservationTickets?: TAvailableTicket[];
 }
 
 export default Reservation;

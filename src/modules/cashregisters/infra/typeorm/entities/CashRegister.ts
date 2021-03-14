@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   JoinColumn,
   UpdateDateColumn,
-  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 
 // Entities
@@ -35,7 +35,7 @@ class CashRegister {
   closed_at: string;
 
   // Relationships
-  @OneToOne(() => User)
+  @ManyToOne(() => User, user => user.caixas)
   @JoinColumn({ name: 'usuario_id' })
   user: User;
 }

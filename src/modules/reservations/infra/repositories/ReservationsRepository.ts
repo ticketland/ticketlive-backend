@@ -5,6 +5,7 @@ import { getRepository, Repository } from 'typeorm';
 import UnavailableTicketError from '@modules/reservations/errors/UnavailableTicketError';
 import InvalidTicketError from '@modules/reservations/errors/InvalidTicketError';
 import ServerError from '@shared/container/providers/HttpProvider/errors/ServerError';
+import ReservationAlreadyCompletedError from '@modules/reservations/errors/ReservationAlreadyCompletedError';
 
 // DTOs
 import ISendTicketsReservationDTO from '@modules/reservations/dtos/ISendTicketsReservationDTO';
@@ -81,13 +82,22 @@ export default class ReservationsRepository implements IReservationsRepository {
   public async sendReservationCompleteRequest(
     reservation_id: string,
   ): Promise<Ticket[]> {
-    const completeReservation = await this.httpProvider
-      .callAPI()
-      .put(`/reservations/${reservation_id}`, {
-        status: 'completed',
-      });
+    try {
+      const completeReservation = await this.httpProvider
+        .callAPI()
+        .put(`/reservations/${reservation_id}`, {
+          status: 'completed',
+        });
 
-    return completeReservation.data.tickets;
+      return completeReservation.data;
+    } catch (error) {
+      switch (error.response.status) {
+        case 403:
+          throw new ReservationAlreadyCompletedError();
+        default:
+          throw new ServerError();
+      }
+    }
   }
 
   public async create(data: ICreateReservationDTO): Promise<Reservation> {
@@ -106,5 +116,9 @@ export default class ReservationsRepository implements IReservationsRepository {
     if (!foundReservation) throw new NotFoundError();
 
     return foundReservation;
+  }
+
+  public async save(reservation: Reservation): Promise<Reservation> {
+    return this.ormRepository.save(reservation);
   }
 }

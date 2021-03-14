@@ -3,14 +3,14 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
-  OneToOne,
   JoinColumn,
-  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
-@Entity('tickets')
+import Sale from '@modules/sales/infra/entities/typeorm/Sale';
+
+@Entity('ingressos')
 class Ticket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -34,6 +34,9 @@ class Ticket {
   data: Date;
 
   // Relationships
+  @ManyToOne(() => Sale, venda => venda.ingressos)
+  @JoinColumn({ name: 'venda_id' })
+  venda: Sale;
 }
 
 export default Ticket;
