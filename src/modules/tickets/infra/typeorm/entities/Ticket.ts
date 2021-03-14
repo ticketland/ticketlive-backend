@@ -10,12 +10,6 @@ import {
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
-// Configs
-import uploadConfig from '@config/upload';
-
-// Entitites
-import Sale from '@modules/sales/infra/typeorm/entities/Sale';
-
 @Entity('tickets')
 class Ticket {
   @PrimaryGeneratedColumn('uuid')

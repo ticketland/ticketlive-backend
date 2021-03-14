@@ -11,12 +11,6 @@ export default class CreateReservation1615570984629
             name: 'id',
             type: 'uuid',
             isPrimary: true,
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()',
-          },
-          {
-            name: 'reserva_id',
-            type: 'uuid',
           },
           {
             name: 'usuario_id',

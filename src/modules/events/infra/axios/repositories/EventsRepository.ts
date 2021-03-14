@@ -20,6 +20,7 @@ export default class EventsRepository implements IEventsRepository {
     const event = await this.httpProvider
       .callAPI()
       .get(`/events/${event_slug}`);
+
     return event.data;
   }
 

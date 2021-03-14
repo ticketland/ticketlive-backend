@@ -1,22 +1,19 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { classToClass } from 'class-transformer';
 
 // Services
-import CreateTicketReserationService from '@modules/tickets/services/CreateTicketReservationService';
-import ShowReservationService from '@modules/tickets/services/ShowReservationService';
-import CancelReservationService from '@modules/tickets/services/CancelReservationService';
+import CreateReservationService from '@modules/reservations/services/CreateReservationService';
+import ShowReservationService from '@modules/reservations/services/ShowReservationService';
+import CancelReservationService from '@modules/reservations/services/CancelReservationService';
 
-export default class TicketReservationController {
+export default class ReservationsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { id: user_id } = request.user;
     const { tickets } = request.body;
 
-    const createTicketReservation = container.resolve(
-      CreateTicketReserationService,
-    );
+    const createReservation = container.resolve(CreateReservationService);
 
-    const reservation = await createTicketReservation.execute({
+    const reservation = await createReservation.execute({
       user_id,
       tickets,
     });
@@ -35,21 +32,6 @@ export default class TicketReservationController {
 
     return response.json(reservation);
   }
-
-  // public async update(request: Request, response: Response): Promise<Response> {
-  //   const { id: user_id } = request.user;
-  //   const { status } = request.body;
-
-  //   const updateTicketReservation = container.resolve(
-  //     UpdateTicketReservationService,
-  //   );
-
-  //   const tickets = await updateTicketReservation.execute({
-  //     status,
-  //   });
-
-  //   return response.json(reservation);
-  // }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { reservation_id } = request.params;
