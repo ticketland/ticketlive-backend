@@ -14,7 +14,7 @@ class Reservation {
   @CreateDateColumn({ type: 'timestamptz', select: false })
   created_at: Date;
 
-  reservationTickets?: ReservationTicket;
+  reservationTickets?: TReservationTicket;
 }
 
 export default Reservation;

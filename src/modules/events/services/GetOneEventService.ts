@@ -1,8 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-// Entities
-import Event from '@modules/events/infra/entities/Event';
-
 // Repositories
 import IEventsRepository from '@modules/events/repositories/IEventsRepository';
 
@@ -17,7 +14,7 @@ export default class GetOneEventService {
     private eventsRepository: IEventsRepository,
   ) {}
 
-  public async execute({ event_slug }: IRequest): Promise<Event> {
+  public async execute({ event_slug }: IRequest): Promise<TEvent> {
     const fetchEvent = await this.eventsRepository.fetchEvent(event_slug);
 
     return fetchEvent;

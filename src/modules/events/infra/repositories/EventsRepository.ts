@@ -3,9 +3,6 @@ import { inject, injectable } from 'tsyringe';
 // Repositories
 import IEventsRepository from '@modules/events/repositories/IEventsRepository';
 
-// Models
-import Event from '@modules/events/infra/entities/Event';
-
 // Providers
 import IHttpProvider from '@shared/container/providers/HttpProvider/models/IHttpProvider';
 
@@ -16,7 +13,7 @@ export default class EventsRepository implements IEventsRepository {
     private httpProvider: IHttpProvider,
   ) {}
 
-  public async fetchEvent(event_slug: string): Promise<Event> {
+  public async fetchEvent(event_slug: string): Promise<TEvent> {
     const event = await this.httpProvider
       .callAPI()
       .get(`/events/${event_slug}`);
@@ -24,7 +21,7 @@ export default class EventsRepository implements IEventsRepository {
     return event.data;
   }
 
-  public async fetchEvents(): Promise<Event[]> {
+  public async fetchEvents(): Promise<TEvent[]> {
     const events = await this.httpProvider.callAPI().get('/events');
 
     return events.data;

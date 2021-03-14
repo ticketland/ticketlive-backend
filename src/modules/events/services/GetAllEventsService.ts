@@ -1,7 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import Event from '@modules/events/infra/entities/Event';
-
 import IEventsRepository from '@modules/events/repositories/IEventsRepository';
 
 @injectable()
@@ -11,7 +9,7 @@ export default class GetAllEventsService {
     private eventsRepository: IEventsRepository,
   ) {}
 
-  public async execute(): Promise<Event[]> {
+  public async execute(): Promise<TEvent[]> {
     const events = await this.eventsRepository.fetchEvents();
 
     return events;

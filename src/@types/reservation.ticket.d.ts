@@ -1,4 +1,4 @@
-type ReservationTicket = {
+type TReservationTicket = {
   id: number;
   name: string;
   price: number;
