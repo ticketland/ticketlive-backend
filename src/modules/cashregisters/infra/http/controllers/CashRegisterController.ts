@@ -20,30 +20,29 @@ export default class CashRegisterController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { id: user_id } = request.user;
-    const { open_value } = request.body;
+    const { opening_value } = request.body;
 
     const createCashRegister = container.resolve(CreateCashRegisterService);
 
     const cashRegister = await createCashRegister.execute({
       user_id,
-      open_value,
+      opening_value,
     });
 
     return response.json({ cashRegister });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    // const filters: string[] = request.query.filters as string[];
     const { id: user_id } = request.user;
     const { cash_register_id } = request.params;
-    const { close_value } = request.body;
+    const { closing_value } = request.body;
 
     const updateCashRegister = container.resolve(UpdateCashRegisterService);
 
     const cashRegister = await updateCashRegister.execute({
       user_id,
       cash_register_id,
-      close_value,
+      closing_value,
     });
 
     return response.json({ cashRegister });
