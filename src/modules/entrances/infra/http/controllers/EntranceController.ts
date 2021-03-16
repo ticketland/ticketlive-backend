@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { classToClass } from 'class-transformer';
 
 // Services
-import CreateEntranceService from '@modules/entrance/services/CreateEntranceService';
-import ShowOneEntranceService from '@modules/entrance/services/ShowOneEntranceService';
+import CreateEntranceService from '@modules/entrances/services/CreateEntranceService';
+import ShowOneEntranceService from '@modules/entrances/services/ShowOneEntranceService';
 import ValidateTicketService from '@modules/tickets/services/ValidateTicketService';
 
 export default class EntranceController {
   public async create(request: Request, response: Response): Promise<Response> {
-    // const { id: user_id } = request.user;
-    const { user_id, ticket_id, event_id, participant_id } = request.body;
+    const { id: user_id } = request.user;
+    const { ticket_id, ext_event_id, ext_participant_id } = request.body;
 
     const validateTicket = container.resolve(ValidateTicketService);
 
@@ -22,8 +21,8 @@ export default class EntranceController {
     const entrance = await createEntrance.execute({
       user_id,
       ticket_id,
-      event_id,
-      participant_id,
+      ext_event_id,
+      ext_participant_id,
     });
 
     return response.json(entrance);
