@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 // Models
-import CashRegister from '@modules/cashregisters/infra/typeorm/entities/CashRegister';
+import CashRegister from '@modules/cashregisters/infra/entities/typeorm/CashRegister';
 import ICashRegistersRepository from '../repositories/ICashRegistersRepository';
 
 interface IRequest {

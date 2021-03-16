@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 // Models
-import Operation from '@modules/cashregisters/infra/typeorm/entities/Operation';
+import Operation from '@modules/cashregisters/infra/entities/typeorm/Operation';
 import IOperationsRepository from '../repositories/IOperationsRepository';
 
 @injectable()

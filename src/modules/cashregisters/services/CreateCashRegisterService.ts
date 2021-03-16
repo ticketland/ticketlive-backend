@@ -1,10 +1,11 @@
 import { injectable, inject } from 'tsyringe';
 
 // Errors
-import UserNotFoundError from '@modules/users/errors/UserNotFoundError';
+import NotFoundError from '@shared/errors/NotFoundError';
 import UserAlreadyHaveACashRegisterOpenError from '@modules/cashregisters/errors/UserAlreadyHaveACashRegisterOpenError';
+
 // Models
-import CashRegister from '@modules/cashregisters/infra/typeorm/entities/CashRegister';
+import CashRegister from '@modules/cashregisters/infra/entities/typeorm/CashRegister';
 
 // Repositories
 import ICashRegistersRepository from '@modules/cashregisters/repositories/ICashRegistersRepository';
@@ -12,7 +13,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 interface IRequest {
   user_id: string;
-  open_value: number;
+  opening_value: number;
 }
 
 @injectable()
@@ -27,23 +28,23 @@ class CreateCashRegisterService {
 
   public async execute({
     user_id,
-    open_value,
+    opening_value,
   }: IRequest): Promise<CashRegister> {
     const user = await this.usersRepository.findByID(user_id);
 
-    if (!user) throw new UserNotFoundError();
+    if (!user) throw new NotFoundError();
 
-    const oneHasOpenCashRegister = await this.cashRegistersRepository.findCashRegisterFromUser(
+    const oneHasOpenCashRegister = await this.cashRegistersRepository.all({
       user_id,
-      [''],
-    );
+      state: 'opened',
+    });
 
     if (oneHasOpenCashRegister.length !== 0)
       throw new UserAlreadyHaveACashRegisterOpenError();
 
     const cashRegisters = await this.cashRegistersRepository.create({
-      usuario_id: user.id,
-      valor_abertura: open_value,
+      user_id: user.id,
+      opening_value,
     });
 
     return cashRegisters;

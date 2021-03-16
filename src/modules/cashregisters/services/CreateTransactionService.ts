@@ -3,7 +3,7 @@ import { injectable, inject } from 'tsyringe';
 // Errors
 
 // Entities
-import Transaction from '@modules/cashregisters/infra/typeorm/entities/Transaction';
+import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
 
 // Interfaces
 import IOperationsRepository from '../repositories/IOperationsRepository';

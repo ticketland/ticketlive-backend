@@ -21,7 +21,7 @@ class CreatePaymentMethodService {
 
   public async execute({ type }: IRequest): Promise<PaymentMethod> {
     const paymentMethod = await this.paymentMethodsRepository.create({
-      tipo: type,
+      type,
     });
 
     return paymentMethod;
