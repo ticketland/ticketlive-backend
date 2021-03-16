@@ -7,7 +7,7 @@ import ITransactionsRepository from '@modules/cashregisters/repositories/ITransa
 import ICreateTransactionDTO from '@modules/cashregisters/dtos/ICreateTransactionDTO';
 
 // Models
-import Transaction from '../entities/Transaction';
+import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
 
 export default class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;

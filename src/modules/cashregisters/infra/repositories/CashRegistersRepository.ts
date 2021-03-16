@@ -1,14 +1,14 @@
 import { Brackets, getRepository, Repository } from 'typeorm';
 
-// Repositories
+// Interfaces
 import ICashRegistersRepository from '@modules/cashregisters/repositories/ICashRegistersRepository';
 
-// Interfaces
+// DTOs
 import ICreateCashRegisterDTO from '@modules/cashregisters/dtos/ICreateCashRegisterDTO';
+import IFilterCashRegisterDTO from '@modules/cashregisters/dtos/IFilterCashRegisterDTO';
 
 // Models
-import IFilterCashRegisterDTO from '@modules/cashregisters/dtos/IFilterCashRegisterDTO';
-import CashRegister from '../entities/CashRegister';
+import CashRegister from '@modules/cashregisters/infra/entities/typeorm/CashRegister';
 
 export default class CashRegistersRepository
   implements ICashRegistersRepository {

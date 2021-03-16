@@ -1,13 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
 
 // Errors
-import OperationNotFoundError from '@modules/cashregisters/errors/OperationNotFoundError';
+import NotFoundError from '@shared/errors/NotFoundError';
 
-// Repositories
+// Interfaces
 import IOperationsRepository from '@modules/cashregisters/repositories/IOperationsRepository';
 
 // Models
-import Operation from '../entities/Operation';
+import Operation from '@modules/cashregisters/infra/entities/typeorm/Operation';
 
 export default class OperationsRepository implements IOperationsRepository {
   private ormRepository: Repository<Operation>;
@@ -25,7 +25,7 @@ export default class OperationsRepository implements IOperationsRepository {
   public async findByIdOrFail(id: string): Promise<Operation> {
     const foundOperation = await this.ormRepository.findOne({ id });
 
-    if (!foundOperation) throw new OperationNotFoundError();
+    if (!foundOperation) throw new NotFoundError();
 
     return foundOperation;
   }
