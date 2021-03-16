@@ -1,14 +1,3 @@
-type TProducer = {
-  id: string;
-  name: string;
-  description: string;
-};
-
-type TCategory = {
-  id: string;
-  name: string;
-};
-
 type TEvent = {
   id: string;
   name: string;
@@ -24,4 +13,15 @@ type TEvent = {
   files: [];
   producer: TProducer;
   category: TCategory;
+};
+
+type TProducer = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+type TCategory = {
+  id: string;
+  name: string;
 };
