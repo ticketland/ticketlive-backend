@@ -1,12 +1,12 @@
 import AppError from '@shared/errors/AppError';
 
-class UserDoesNotHaveOpenCashRegisterError extends AppError {
+class UserDidntOpenedACashRegisterError extends AppError {
   constructor(
-    message = 'This user does not have cash register open!',
+    message = "This user didn't opened a cash register!",
     statusCode = 403,
   ) {
     super(message, statusCode);
   }
 }
 
-export default UserDoesNotHaveOpenCashRegisterError;
+export default UserDidntOpenedACashRegisterError;
