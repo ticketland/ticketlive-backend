@@ -1,5 +1,5 @@
 // Entities
-import CashRegister from '@modules/cashregisters/infra/typeorm/entities/CashRegister';
+import CashRegister from '@modules/cashregisters/infra/entities/typeorm/CashRegister';
 
 // Dtos
 import ICreateCashRegisterDTO from '@modules/cashregisters/dtos/ICreateCashRegisterDTO';

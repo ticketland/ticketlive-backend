@@ -1,13 +1,13 @@
 import { container } from 'tsyringe';
 
 import ITransactionsRepository from '@modules/cashregisters/repositories/ITransactionsRepository';
-import TransactionsRepository from '@modules/cashregisters/infra/typeorm/repositories/TransactionsRepository';
+import TransactionsRepository from '@modules/cashregisters/infra/repositories/TransactionsRepository';
 
 import IOperationsRepository from '@modules/cashregisters/repositories/IOperationsRepository';
-import OperationsRepository from '@modules/cashregisters/infra/typeorm/repositories/OperationsRepository';
+import OperationsRepository from '@modules/cashregisters/infra/repositories/OperationsRepository';
 
 import ICashRegistersRepository from '@modules/cashregisters/repositories/ICashRegistersRepository';
-import CashRegistersRepository from '@modules/cashregisters/infra/typeorm/repositories/CashRegistersRepository';
+import CashRegistersRepository from '@modules/cashregisters/infra/repositories/CashRegistersRepository';
 
 container.registerSingleton<ITransactionsRepository>(
   'TransactionsRepository',

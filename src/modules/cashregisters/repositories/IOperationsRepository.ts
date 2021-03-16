@@ -1,5 +1,5 @@
 // Entities
-import Operation from '@modules/cashregisters/infra/typeorm/entities/Operation';
+import Operation from '@modules/cashregisters/infra/entities/typeorm/Operation';
 
 export default interface IOperationsRepository {
   all(): Promise<Operation[]>;
