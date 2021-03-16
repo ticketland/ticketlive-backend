@@ -1,8 +1,8 @@
 // Dtos
-import ICreateEntraceDTO from '@modules/entrance/dtos/ICreateEntranceDTO';
+import ICreateEntraceDTO from '@modules/entrances/dtos/ICreateEntranceDTO';
 
 // Models
-import Entrance from '../infra/typeorm/entities/Entrance';
+import Entrance from '@modules/entrances/infra/entities/typeorm/Entrance';
 
 export default interface IUsersRepository {
   create(entraceData: ICreateEntraceDTO): Promise<Entrance>;

@@ -1,13 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
 
-// Repositories
-import IEntranceRepository from '@modules/entrance/repositories/IEntranceRepository';
-
 // Interfaces
-import ICreateEntranceDTO from '@modules/entrance/dtos/ICreateEntranceDTO';
+import IEntranceRepository from '@modules/entrances/repositories/IEntranceRepository';
+
+// DTOs
+import ICreateEntranceDTO from '@modules/entrances/dtos/ICreateEntranceDTO';
 
 // Models
-import Entrance from '../entities/Entrance';
+import Entrance from '@modules/entrances/infra/entities/typeorm/Entrance';
 
 export default class EntranceRepository implements IEntranceRepository {
   private ormRepository: Repository<Entrance>;
