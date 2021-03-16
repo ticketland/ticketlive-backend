@@ -12,33 +12,33 @@ import {
 import User from '@modules/users/infra/typeorm/entities/User';
 import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
 
-@Entity('entradas')
+@Entity('entrances')
 class Entrance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  usuario_id: string;
+  user_id: string;
 
   @Column()
-  ingresso_id: string;
+  ticket_id: string;
 
   @Column()
-  evento_id: string;
+  ext_event_id: number;
 
   @Column()
-  participante_id: string;
+  ext_participant_id: number;
 
-  @CreateDateColumn({ type: 'timestamptz', select: false })
+  @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 
   // Relationships
   @ManyToOne(() => User, user => user.entrance)
-  @JoinColumn({ name: 'usuario_id' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @OneToOne(() => Ticket)
-  @JoinColumn({ name: 'ingresso_id' })
+  @JoinColumn({ name: 'ticket_id' })
   ticket: Ticket;
 }
 
