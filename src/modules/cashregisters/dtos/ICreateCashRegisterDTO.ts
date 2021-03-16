@@ -1,4 +1,4 @@
-export default interface ICreatePaymentMethodDTO {
-  usuario_id: string;
-  valor_abertura: number;
+export default interface ICreateCashRegisterDTO {
+  user_id: string;
+  opening_value: number;
 }

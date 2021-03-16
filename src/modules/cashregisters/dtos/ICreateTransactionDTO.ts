@@ -1,7 +1,7 @@
 export default interface ICreateTransactionDTO {
-  caixa_id: string;
-  venda_id?: string;
-  operacao_id: string;
-  valor: number;
-  usuario_id: string;
+  cash_register_id: string;
+  sale_id?: string;
+  operation_id: string;
+  value: number;
+  user_id: string;
 }
