@@ -4,40 +4,41 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   JoinColumn,
-  UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 // Entities
 import User from '@modules/users/infra/typeorm/entities/User';
+import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
 
-@Entity('caixas')
+@Entity('cash_registers')
 class CashRegister {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  usuario_id: string;
+  user_id: string;
 
   @Column()
-  valor_abertura: number;
+  opening_value: number;
 
   @Column()
-  valor_fechamento: number;
+  closing_value: number;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at: Date;
-
-  @UpdateDateColumn({ type: 'timestamp with time zone' })
-  updated_at: Date;
 
   @Column({ type: 'timestamp with time zone' })
   closed_at: string;
 
   // Relationships
   @ManyToOne(() => User, user => user.caixas)
-  @JoinColumn({ name: 'usuario_id' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Transaction, transaction => transaction.cashRegister)
+  transactions: Transaction[];
 }
 
 export default CashRegister;

@@ -1,15 +1,15 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 // Entities
-import Transaction from '@modules/cashregisters/infra/typeorm/entities/Transaction';
+import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
 
-@Entity('operacoes')
+@Entity('operations')
 class Operation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  nome: string;
+  type: string;
 
   // Relationships
   @OneToMany(() => Transaction, transaction => transaction.operation)

@@ -6,35 +6,37 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import CashRegister from './CashRegister';
 import Operation from './Operation';
 
-@Entity('transacoes')
+@Entity('transactions')
 class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  caixa_id: string;
+  cash_register_id: string;
 
   @Column()
-  venda_id: string;
+  operation_id: string;
 
   @Column()
-  operacao_id: string;
+  value: number;
 
   @Column()
-  valor: number;
-
-  @Column()
-  usuario_id: string;
+  user_id: string;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at: string;
 
   // Relationships
   @ManyToOne(() => Operation, operation => operation.transactions)
-  @JoinColumn({ name: 'operacao_id' })
+  @JoinColumn({ name: 'operation_id' })
   operation: Operation;
+
+  @ManyToOne(() => CashRegister, cashRegister => cashRegister.transactions)
+  @JoinColumn({ name: 'cash_register_id' })
+  cashRegister: CashRegister;
 }
 
 export default Transaction;
