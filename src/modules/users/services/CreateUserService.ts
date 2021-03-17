@@ -4,7 +4,7 @@ import { injectable, inject } from 'tsyringe';
 import EmailAlreadyInUseException from '@modules/users/errors/EmailAlreadyInUseException';
 
 // Entities
-import User from '@modules/users/infra/typeorm/entities/User';
+import User from '@modules/users/infra/entities/typeorm/User';
 
 // Interfaces
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
@@ -40,10 +40,10 @@ class CreateUserService {
     const hashedPassword = await this.hashProvider.generateHash(password);
 
     const user = await this.usersRepository.create({
-      nome: name,
+      name,
       email,
       cpf,
-      senha: hashedPassword,
+      password: hashedPassword,
     });
 
     return user;

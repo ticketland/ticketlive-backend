@@ -7,7 +7,7 @@ import AppError from '@shared/errors/AppError';
 // Configs
 import authConfig from '@config/auth';
 
-import User from '@modules/users/infra/typeorm/entities/User';
+import User from '@modules/users/infra/entities/typeorm/User';
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 

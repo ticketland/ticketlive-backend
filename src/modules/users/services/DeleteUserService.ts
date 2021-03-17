@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 import { DeleteResult } from 'typeorm';
 
 // Errors
-import AppError from '@shared/errors/AppError';
+import NotFoundError from '@shared/errors/NotFoundError';
 
 // Interfaces
 import IUsersRepository from '../repositories/IUsersRepository';
@@ -18,7 +18,7 @@ class DeleteUserService {
     const user = await this.usersRepository.findByID(user_id);
 
     if (!user) {
-      throw new AppError('User not found!');
+      throw new NotFoundError();
     }
 
     return this.usersRepository.delete(user_id);

@@ -1,10 +1,12 @@
 import { injectable, inject } from 'tsyringe';
 
 // Errors
-import AppError from '@shared/errors/AppError';
+import NotFoundError from '@shared/errors/NotFoundError';
 
 // Models
-import User from '@modules/users/infra/typeorm/entities/User';
+import User from '@modules/users/infra/entities/typeorm/User';
+
+// Repositories
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
@@ -22,10 +24,10 @@ class ShowOneUserService {
     const user = await this.usersRepository.findByID(user_id);
 
     if (!user) {
-      throw new AppError('User not Found!', 404);
+      throw new NotFoundError();
     }
 
-    return this.usersRepository.loadUserInformation(user);
+    return user;
   }
 }
 

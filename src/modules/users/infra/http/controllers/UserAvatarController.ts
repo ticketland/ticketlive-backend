@@ -14,8 +14,6 @@ export default class UserAvatarContoller {
       avatarFilename: request.file.filename,
     });
 
-    // delete user.password;
-
     return response.json(classToClass(user));
   }
 }

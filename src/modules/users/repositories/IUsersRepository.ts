@@ -1,10 +1,10 @@
 import { DeleteResult } from 'typeorm';
 
 // Dtos
-import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
+import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 // Models
-import User from '../infra/typeorm/entities/User';
+import User from '@modules/users/infra/entities/typeorm/User';
 
 export default interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<User>;

@@ -16,7 +16,7 @@ import uploadConfig from '@config/upload';
 // Entitites
 import Entrance from '@modules/entrance/infra/typeorm/entities/Entrance';
 import Sale from '@modules/sales/infra/entities/typeorm/Sale';
-import CashRegister from '@modules/cashregisters/infra/typeorm/entities/CashRegister';
+import CashRegister from '@modules/cashregisters/infra/entities/typeorm/CashRegister';
 
 @Entity('usuarios')
 class User {
@@ -24,7 +24,7 @@ class User {
   id: string;
 
   @Column()
-  nome: string;
+  name: string;
 
   @Column()
   email: string;
@@ -34,16 +34,10 @@ class User {
 
   @Column()
   @Exclude()
-  senha: string;
+  password: string;
 
   @Column()
   avatar: string;
-
-  @CreateDateColumn({ type: 'timestamptz', select: false })
-  created_at: Date;
-
-  @UpdateDateColumn({ type: 'timestamptz', select: false })
-  updated_at: Date;
 
   // Serializers
   @Expose({ name: 'avatar_url' })
@@ -61,8 +55,8 @@ class User {
   }
 
   // Relationships
-  @OneToMany(() => Entrance, entrance => entrance.user)
-  entrance: Entrance[];
+  // @OneToMany(() => Entrance, entrance => entrance.user)
+  // entrance: Entrance[];
 
   @OneToMany(() => Sale, venda => venda.user)
   vendas: Sale[];

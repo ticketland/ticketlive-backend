@@ -17,9 +17,6 @@ class UserToken {
   token: string;
 
   @Column()
-  type: string;
-
-  @Column()
   user_id: string;
 
   @CreateDateColumn({ type: 'timestamptz' })

@@ -1,4 +1,4 @@
-import UserToken from '../infra/typeorm/entities/UserToken';
+import UserToken from '@modules/users/infra/entities/typeorm/UserToken';
 
 export default interface IUserTokensRepository {
   generate(

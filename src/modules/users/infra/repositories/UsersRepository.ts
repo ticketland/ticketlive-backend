@@ -1,14 +1,13 @@
 import { DeleteResult, getRepository, Repository } from 'typeorm';
+
 // Repositories
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
-import AppError from '@shared/errors/AppError';
-
-// Interfaces
+// DTOs
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 // Models
-import User from '../entities/User';
+import User from '@modules/users/infra/entities/typeorm/User';
 
 export default class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
