@@ -14,11 +14,11 @@ import { Exclude, Expose } from 'class-transformer';
 import uploadConfig from '@config/upload';
 
 // Entitites
-import Entrance from '@modules/entrance/infra/typeorm/entities/Entrance';
+import Entrance from '@modules/entrances/infra/entities/typeorm/Entrance';
 import Sale from '@modules/sales/infra/entities/typeorm/Sale';
 import CashRegister from '@modules/cashregisters/infra/entities/typeorm/CashRegister';
 
-@Entity('usuarios')
+@Entity('users')
 class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -55,8 +55,8 @@ class User {
   }
 
   // Relationships
-  // @OneToMany(() => Entrance, entrance => entrance.user)
-  // entrance: Entrance[];
+  @OneToMany(() => Entrance, entrance => entrance.user)
+  entrance: Entrance[];
 
   @OneToMany(() => Sale, venda => venda.user)
   vendas: Sale[];

@@ -2,7 +2,7 @@ import { Entity, Column, CreateDateColumn, PrimaryColumn } from 'typeorm';
 
 import TAvailableTicket from '../AvailableTicket';
 
-@Entity('reservas')
+@Entity('reservations')
 class Reservation {
   @PrimaryColumn()
   id: string;

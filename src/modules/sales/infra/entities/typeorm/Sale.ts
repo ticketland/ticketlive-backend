@@ -13,7 +13,7 @@ import User from '@modules/users/infra/entities/typeorm/User';
 import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
 import PaymentMethod from './PaymentMethod';
 
-@Entity('vendas')
+@Entity('sales')
 class Sale {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -10,7 +10,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 import Sale from '@modules/sales/infra/entities/typeorm/Sale';
 
-@Entity('ingressos')
+@Entity('tickets')
 class Ticket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
