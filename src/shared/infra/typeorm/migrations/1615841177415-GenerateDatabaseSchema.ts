@@ -5,7 +5,7 @@ export default class GenerateDatabaseSchema1615841177415
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       -- Created by Vertabelo (http://vertabelo.com)
-      -- Last modification date: 2021-03-15 20:45:25.05
+      -- Last modification date: 2021-03-17 20:31:51.917
 
       -- tables
       -- Table: cash_registers
@@ -116,6 +116,14 @@ export default class GenerateDatabaseSchema1615841177415
           event_date timestamp  NOT NULL,
           code varchar(10)  NOT NULL,
           CONSTRAINT tickets_pk PRIMARY KEY (id)
+      );
+
+      -- Table: tokens
+      CREATE TABLE tokens (
+          id uuid  NOT NULL DEFAULT uuid_generate_v4(),
+          token uuid  NOT NULL,
+          user_id uuid  NOT NULL,
+          CONSTRAINT tokens_pk PRIMARY KEY (id)
       );
 
       -- Table: transactions
@@ -257,6 +265,14 @@ export default class GenerateDatabaseSchema1615841177415
           INITIALLY IMMEDIATE
       ;
 
+      -- Reference: FK_TokensUsers (table: tokens)
+      ALTER TABLE tokens ADD CONSTRAINT FK_TokensUsers
+          FOREIGN KEY (user_id)
+          REFERENCES users (id)
+          NOT DEFERRABLE
+          INITIALLY IMMEDIATE
+      ;
+
       -- Reference: FK_TransactionCashRegisters (table: transactions)
       ALTER TABLE transactions ADD CONSTRAINT FK_TransactionCashRegisters
           FOREIGN KEY (cash_register_id)
@@ -288,7 +304,7 @@ export default class GenerateDatabaseSchema1615841177415
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       -- Created by Vertabelo (http://vertabelo.com)
-      -- Last modification date: 2021-03-15 20:45:25.05
+      -- Last modification date: 2021-03-17 20:31:51.917
 
       -- foreign keys
       ALTER TABLE cash_registers
@@ -330,6 +346,9 @@ export default class GenerateDatabaseSchema1615841177415
       ALTER TABLE tickets
           DROP CONSTRAINT FK_TicketSale;
 
+      ALTER TABLE tokens
+          DROP CONSTRAINT FK_TokensUsers;
+
       ALTER TABLE transactions
           DROP CONSTRAINT FK_TransactionCashRegisters;
 
@@ -363,6 +382,8 @@ export default class GenerateDatabaseSchema1615841177415
       DROP TABLE sales;
 
       DROP TABLE tickets;
+
+      DROP TABLE tokens;
 
       DROP TABLE transactions;
 
