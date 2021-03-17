@@ -24,7 +24,7 @@ class ShowReservationService {
       reservation_id,
     );
 
-    if (foundReservation.status === 'complete') return foundReservation;
+    if (foundReservation.status === 'completed') return foundReservation;
 
     const fetchReservation = await this.reservationsRepository.fetchReservation(
       reservation_id,

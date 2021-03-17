@@ -8,7 +8,7 @@ class Reservation {
   id: string;
 
   @Column()
-  usuario_id: string;
+  user_id: string;
 
   @Column()
   status: 'waiting' | 'completed';

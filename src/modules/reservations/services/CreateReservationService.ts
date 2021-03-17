@@ -29,7 +29,7 @@ class CreateReservationService {
     );
 
     const reservation = await this.reservationsRepository.create({
-      usuario_id: user_id,
+      user_id,
       id: reservationID,
       status: 'waiting',
     });

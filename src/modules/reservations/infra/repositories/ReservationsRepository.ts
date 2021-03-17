@@ -15,7 +15,6 @@ import ICreateReservationDTO from '@modules/reservations/dtos/ICreateReservation
 import IReservationsRepository from '@modules/reservations/repositories/IReservationsRepository';
 
 // Models
-import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
 import Reservation from '@modules/reservations/infra/entities/typeorm/Reservation';
 
 import IHttpProvider from '@shared/container/providers/HttpProvider/models/IHttpProvider';
@@ -81,7 +80,7 @@ export default class ReservationsRepository implements IReservationsRepository {
 
   public async sendReservationCompleteRequest(
     reservation_id: string,
-  ): Promise<Ticket[]> {
+  ): Promise<APITicket[]> {
     try {
       const completeReservation = await this.httpProvider
         .callAPI()

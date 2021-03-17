@@ -1,5 +1,5 @@
 export default interface ISendTicketsReservationDTO {
   id: string;
-  usuario_id: string;
-  status: 'waiting' | 'complete';
+  user_id: string;
+  status: 'waiting' | 'completed';
 }
