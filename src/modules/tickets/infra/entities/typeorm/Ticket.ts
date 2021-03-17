@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
-import Sale from '@modules/sales/infra/entities/typeorm/Sale';
+// import Sale from '@modules/sales/infra/entities/typeorm/Sale';
 
 @Entity('ingressos')
 class Ticket {
@@ -16,27 +16,27 @@ class Ticket {
   id: string;
 
   @Column()
-  venda_id: string;
+  sale_id: string;
 
   @Column()
-  evento_id: string;
+  ext_event_id: number;
 
   @Column()
-  nome_participante: string;
+  participant_name: string;
 
   @Column()
-  setor: string;
+  sector: string;
 
   @Column()
-  codigo: string;
+  code: string;
 
   @CreateDateColumn({ type: 'timestamptz', select: false })
-  data: Date;
+  event_date: Date;
 
   // Relationships
-  @ManyToOne(() => Sale, venda => venda.ingressos)
-  @JoinColumn({ name: 'venda_id' })
-  venda: Sale;
+  // @ManyToOne(() => Sale, sale => sale.tickets)
+  // @JoinColumn({ name: 'sale' })
+  // sale: Sale;
 }
 
 export default Ticket;

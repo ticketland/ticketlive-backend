@@ -17,10 +17,10 @@ export default class TicketsRepository implements ITicketsRepository {
   ): Promise<Ticket[]> {
     const tickets = apiTickets.map(apiTicket => {
       return this.ormRepository.create({
-        codigo: apiTicket.code,
-        evento_id: apiTicket.event_id.toString(),
-        setor: apiTicket.section,
-        venda_id: sale_id,
+        code: apiTicket.code,
+        ext_event_id: apiTicket.event_id,
+        sector: apiTicket.section,
+        sale_id,
       });
     });
 

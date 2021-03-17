@@ -1,5 +1,5 @@
 // Models
-import Ticket from '../infra/typeorm/entities/Ticket';
+import Ticket from '../infra/entities/typeorm/Ticket';
 
 export default interface ITicketsRepository {
   // save(ticket: Ticket): Promise<Ticket>;

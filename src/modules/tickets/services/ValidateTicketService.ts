@@ -1,11 +1,11 @@
 import { injectable, inject } from 'tsyringe';
 
 // Errors
+import NotFoundError from '@shared/errors/NotFoundError';
 import TicketAlreadyUsedError from '@modules/tickets/errors/TicketAlreadyUsedError';
-import TicketNotFoundError from '@modules/tickets/errors/TicketNotFoundError';
 
 // Interfaces
-import IEntranceRepository from '@modules/entrance/repositories/IEntranceRepository';
+import IEntranceRepository from '@modules/entrances/repositories/IEntranceRepository';
 import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 
 interface IRequest {
@@ -25,7 +25,7 @@ class ValidateTicketService {
   public async execute({ ticket_id }: IRequest): Promise<boolean> {
     const ticketExists = await this.ticketsRepository.findByID(ticket_id);
 
-    if (!ticketExists) throw new TicketNotFoundError();
+    if (!ticketExists) throw new NotFoundError();
 
     const unusedTicket = await this.entranceRepository.findByTicketID(
       ticket_id,
