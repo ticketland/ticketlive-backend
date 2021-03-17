@@ -15,7 +15,7 @@ import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository
 
 interface IRequest {
   payment_method_id: string;
-  participant_id?: string;
+  ext_participant_id?: string;
   user_id: string;
   reservation_id: string;
 }
@@ -41,7 +41,7 @@ export default class CreateSaleService {
 
   public async execute({
     payment_method_id,
-    participant_id,
+    ext_participant_id,
     user_id,
     reservation_id,
   }: IRequest): Promise<Sale> {
@@ -54,7 +54,9 @@ export default class CreateSaleService {
      * retornar ingressos
      */
 
-    const user = await this.usersRepository.findByID(user_id, ['caixas']);
+    const user = await this.usersRepository.findByID(user_id, [
+      'cashRegisters',
+    ]);
     if (!user) throw new NotFoundError();
 
     const paymentMethod = await this.paymentMethodsRepository.findByID(
@@ -72,9 +74,9 @@ export default class CreateSaleService {
     );
 
     const sale = await this.salesRepository.create({
-      metodo_pagamento_id: paymentMethod.id,
-      usuario_id: user.id,
-      participante_id: participant_id,
+      payment_method_id: paymentMethod.id,
+      user_id: user.id,
+      ext_participant_id,
     });
     await this.ticketsRepository.createMany(tickets, sale.id);
 

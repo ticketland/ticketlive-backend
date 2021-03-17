@@ -3,7 +3,7 @@ import { injectable, inject } from 'tsyringe';
 // Errors
 
 // Entities
-import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
+import PaymentMethod from '@modules/sales/infra/entities/typeorm/PaymentMethod';
 
 // Interfaces
 import IPaymentMethodsRepository from '../repositories/IPaymentMethodsRepository';

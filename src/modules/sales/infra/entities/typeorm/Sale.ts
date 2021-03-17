@@ -19,27 +19,27 @@ class Sale {
   id: string;
 
   @Column()
-  metodo_pagamento_id: string;
+  payment_method_id: string;
 
   @Column()
-  participante_id: string;
+  ext_participant_id: string;
 
   @Column()
-  usuario_id: string;
+  user_id: string;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at: Date;
 
   @ManyToOne(() => User, user => user.vendas)
-  @JoinColumn({ name: 'usuario_id' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => PaymentMethod, metodoPagamento => metodoPagamento.vendas)
-  @JoinColumn({ name: 'metodo_pagamento_id' })
-  metodoPagamento: PaymentMethod;
+  @ManyToOne(() => PaymentMethod, paymentMethod => paymentMethod.sales)
+  @JoinColumn({ name: 'payment_method_id' })
+  paymentMethod: PaymentMethod;
 
-  @OneToMany(() => Ticket, ingresso => ingresso.venda)
-  ingressos: Ticket[];
+  @OneToMany(() => Ticket, ticket => ticket.sale)
+  tickets: Ticket[];
 }
 
 export default Sale;

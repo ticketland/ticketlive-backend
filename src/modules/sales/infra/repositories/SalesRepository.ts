@@ -33,7 +33,7 @@ export default class EntranceRepository implements ISalesRepository {
       where: {
         id,
       },
-      relations: ['ingressos'],
+      relations: ['tickets'],
     });
 
     return foundSale;

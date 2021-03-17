@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 // Models
-import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
+import PaymentMethod from '@modules/sales/infra/entities/typeorm/PaymentMethod';
 import IPaymentMethodsRepository from '../repositories/IPaymentMethodsRepository';
 
 @injectable()

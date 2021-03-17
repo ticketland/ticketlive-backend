@@ -1,10 +1,10 @@
 import { injectable, inject } from 'tsyringe';
 
 // Errors
-import PaymentMethodNotFound from '@modules/sales/errors/PaymentMethodNotFound';
 
 // Models
-import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
+import PaymentMethod from '@modules/sales/infra/entities/typeorm/PaymentMethod';
+import NotFoundError from '@shared/errors/NotFoundError';
 import IPaymentMethodsRepository from '../repositories/IPaymentMethodsRepository';
 
 interface IRequest {
@@ -26,7 +26,7 @@ class ShowOnePaymentMethodService {
     );
 
     if (!paymentMethod) {
-      throw new PaymentMethodNotFound();
+      throw new NotFoundError();
     }
 
     return paymentMethod;

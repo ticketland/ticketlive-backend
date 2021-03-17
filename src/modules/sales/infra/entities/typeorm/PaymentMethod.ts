@@ -2,16 +2,16 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 import Sale from './Sale';
 
-@Entity('metodos_pagamento')
+@Entity('payment_methods')
 class PaymentMethod {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  tipo: string;
+  type: string;
 
-  @OneToMany(() => Sale, venda => venda.metodoPagamento)
-  vendas: Sale[];
+  @OneToMany(() => Sale, sale => sale.paymentMethod)
+  sales: Sale[];
 }
 
 export default PaymentMethod;
