@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 // Entities
-import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
+import Transaction from '@modules/transactions/infra/models/Transaction';
 import User from './User';
 
 @Entity('cash_registers')

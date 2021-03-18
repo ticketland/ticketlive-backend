@@ -12,7 +12,7 @@ import entranceRouter from '@modules/entrances/infra/http/routes/entrance.routes
 import eventsRouter from '@modules/events/infra/http/routes/events.routes';
 import validateTicketRouter from '@modules/tickets/infra/http/routes/validate.ticket.routes';
 import paymentMethodRouter from '@modules/sales/infra/http/routes/payment.methods.routes';
-import operationRouter from '@modules/cashregisters/infra/http/routes/operations.routes';
+import operationRouter from '@modules/transactions/routes/operations.routes';
 import ticketReservationRouter from '@modules/reservations/infra/http/routes/reservations.routes';
 import salesRouter from '@modules/sales/infra/http/routes/sales.routes';
 
