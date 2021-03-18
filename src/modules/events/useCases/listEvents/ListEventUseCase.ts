@@ -7,12 +7,12 @@ import Event from '@modules/events/infra/models/Event';
 @injectable()
 export default class ListEventUseCase {
   constructor(
-    @inject('EventsRepository')
-    private eventsRepository: IEventsRepository,
+    @inject('EventsApiRepository')
+    private eventsApiRepository: IEventsRepository,
   ) {}
 
   public async execute(): Promise<Event[]> {
-    const events = await this.eventsRepository.findAll();
+    const events = await this.eventsApiRepository.findAll();
 
     return events;
   }

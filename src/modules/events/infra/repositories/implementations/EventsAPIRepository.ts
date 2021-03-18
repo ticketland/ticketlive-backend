@@ -10,7 +10,7 @@ import Event from '@modules/events/infra/models/Event';
 import IHttpProvider from '@shared/container/providers/HttpProvider/models/IHttpProvider';
 
 @injectable()
-export default class EventsRepository implements IEventsRepository {
+export default class EventsApiRepository implements IEventsRepository {
   constructor(
     @inject('HttpProvider')
     private httpProvider: IHttpProvider,

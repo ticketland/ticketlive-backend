@@ -13,12 +13,12 @@ interface IRequest {
 @injectable()
 export default class FindEventUseCase {
   constructor(
-    @inject('EventsRepository')
-    private eventsRepository: IEventsRepository,
+    @inject('EventsApiRepository')
+    private eventsApiRepository: IEventsRepository,
   ) {}
 
   public async execute({ event_slug }: IRequest): Promise<Event> {
-    const event = await this.eventsRepository.findBySlug(event_slug);
+    const event = await this.eventsApiRepository.findBySlug(event_slug);
 
     return event;
   }
