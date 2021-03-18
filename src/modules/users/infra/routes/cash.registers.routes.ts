@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import CloseCashRegisterController from '../useCases/closeCashRegister/CloseCashRegisterController';
-import CreateCashRegisterController from '../useCases/createCashRegister/CreateCashRegisterController';
-import FindAllCashRegistersController from '../useCases/findAllCashRegisters/FindAllCashRegistersController';
+import CloseCashRegisterController from '@modules/users/useCases/closeCashRegister/CloseCashRegisterController';
+import CreateCashRegisterController from '@modules/users/useCases/createCashRegister/CreateCashRegisterController';
+import FindAllCashRegistersController from '@modules/users/useCases/findAllCashRegisters/FindAllCashRegistersController';
 
 const cashRegisterRouter = Router();
 

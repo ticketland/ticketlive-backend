@@ -4,13 +4,13 @@ import multer from 'multer';
 // Configs
 import uploadConfig from '@config/upload';
 
-// middleware
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-
 // Contollers
-import UpdateUserAvatarController from '../useCases/updateUserAvatar/UpdateUserAvatarController';
-import CreateUserController from '../useCases/createUser/CreateUserController';
-import ShowAuthenticatedUserController from '../useCases/showAuthenticatedUser/ShowAuthenticatedUserController';
+import UpdateUserAvatarController from '@modules/users/useCases/updateUserAvatar/UpdateUserAvatarController';
+import CreateUserController from '@modules/users/useCases/createUser/CreateUserController';
+import ShowAuthenticatedUserController from '@modules/users/useCases/showAuthenticatedUser/ShowAuthenticatedUserController';
+
+// Middleware
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
 

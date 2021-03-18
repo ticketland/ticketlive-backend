@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 // Controllers
-import AuthenticateUserController from '../useCases/authenticateUser/AuthenticateUserController';
+import AuthenticateUserController from '@modules/users/useCases/authenticateUser/AuthenticateUserController';
 
 const authenticateUsersRouter = Router();
 
