@@ -9,16 +9,12 @@ import {
 } from 'typeorm';
 
 // Entitites
-import User from '@modules/users/infra/entities/typeorm/User';
 import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
 
 @Entity('entrances')
 class Entrance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column()
-  user_id: string;
 
   @Column()
   ticket_id: string;
@@ -32,11 +28,7 @@ class Entrance {
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 
-  // Relationships
-  @ManyToOne(() => User, user => user.entrance)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
-
+  // Relationship
   @OneToOne(() => Ticket)
   @JoinColumn({ name: 'ticket_id' })
   ticket: Ticket;

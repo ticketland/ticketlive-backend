@@ -7,7 +7,7 @@ import NotFoundError from '@shared/errors/NotFoundError';
 import Sale from '@modules/sales/infra/entities/typeorm/Sale';
 
 // Repositories
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 import ISalesRepository from '@modules/sales/repositories/ISalesRepository';
 import IPaymentMethodsRepository from '@modules/sales/repositories/IPaymentMethodsRepository';
 import IReservationRepository from '@modules/reservations/repositories/IReservationsRepository';

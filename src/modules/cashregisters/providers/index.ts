@@ -6,9 +6,6 @@ import TransactionsRepository from '@modules/cashregisters/infra/repositories/Tr
 import IOperationsRepository from '@modules/cashregisters/repositories/IOperationsRepository';
 import OperationsRepository from '@modules/cashregisters/infra/repositories/OperationsRepository';
 
-import ICashRegistersRepository from '@modules/cashregisters/repositories/ICashRegistersRepository';
-import CashRegistersRepository from '@modules/cashregisters/infra/repositories/CashRegistersRepository';
-
 container.registerSingleton<ITransactionsRepository>(
   'TransactionsRepository',
   TransactionsRepository,
@@ -17,9 +14,4 @@ container.registerSingleton<ITransactionsRepository>(
 container.registerSingleton<IOperationsRepository>(
   'OperationsRepository',
   OperationsRepository,
-);
-
-container.registerSingleton<ICashRegistersRepository>(
-  'CashRegistersRepository',
-  CashRegistersRepository,
 );

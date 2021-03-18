@@ -1,6 +1,6 @@
 // Injection Providexrs
 import './providers';
-import '@modules/entrance/providers';
+import '@modules/entrances/providers';
 import '@modules/users/providers';
 import '@modules/events/providers';
 import '@modules/sales/providers';

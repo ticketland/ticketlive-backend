@@ -2,24 +2,24 @@ import { Router } from 'express';
 import acl from 'express-acl';
 
 // Middleware
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/middlewares/ensureAuthenticated';
 
 // Routers
-import usersRouter from '@modules/users/infra/http/routes/users.routes';
-import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
-import entranceRouter from '@modules/entrance/infra/http/routes/entrance.routes';
+import usersRouter from '@modules/users/routes/users.routes';
+import authenticateUsersRouter from '@modules/users/routes/authenticate.users.routes';
+import cashregisterRouter from '@modules/users/routes/cash.registers.routes';
+import entranceRouter from '@modules/entrances/infra/http/routes/entrance.routes';
 import eventsRouter from '@modules/events/infra/http/routes/events.routes';
 import validateTicketRouter from '@modules/tickets/infra/http/routes/validate.ticket.routes';
 import paymentMethodRouter from '@modules/sales/infra/http/routes/payment.methods.routes';
 import operationRouter from '@modules/cashregisters/infra/http/routes/operations.routes';
-import cashregisterRouter from '@modules/cashregisters/infra/http/routes/cash.registers.routes';
 import ticketReservationRouter from '@modules/reservations/infra/http/routes/reservations.routes';
 import salesRouter from '@modules/sales/infra/http/routes/sales.routes';
 
 const routes = Router();
 
 routes.use('/users', usersRouter);
-routes.use('/sessions', sessionsRouter);
+routes.use('/authentication', authenticateUsersRouter);
 routes.use('/entrance', entranceRouter);
 routes.use('/events', eventsRouter);
 routes.use('/tickets/validate', validateTicketRouter);
