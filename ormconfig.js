@@ -9,6 +9,7 @@ module.exports = {
   entities: [
     './src/modules/**/infra/typeorm/entities/*.ts',
     './src/modules/**/infra/entities/typeorm/*.ts',
+    './src/modules/**/infra/models/*.ts',
   ],
   migrations: ['./src/shared/infra/typeorm/migrations/*.ts'],
   cli: {
