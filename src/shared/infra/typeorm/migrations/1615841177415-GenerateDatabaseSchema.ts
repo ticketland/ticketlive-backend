@@ -144,7 +144,7 @@ export default class GenerateDatabaseSchema1615841177415
           email varchar(255)  NOT NULL,
           cpf varchar(11)  NOT NULL,
           password varchar(60)  NOT NULL,
-          avatar varchar  NOT NULL,
+          avatar varchar,
           CONSTRAINT UQ_UsuariosEmail UNIQUE (email) NOT DEFERRABLE  INITIALLY IMMEDIATE,
           CONSTRAINT UQ_UsuariosCPF UNIQUE (cpf) NOT DEFERRABLE  INITIALLY IMMEDIATE,
           CONSTRAINT users_pk PRIMARY KEY (id)
@@ -165,14 +165,6 @@ export default class GenerateDatabaseSchema1615841177415
       ALTER TABLE entrances ADD CONSTRAINT FK_EntrancesTickets
           FOREIGN KEY (ticket_id)
           REFERENCES tickets (id)
-          NOT DEFERRABLE
-          INITIALLY IMMEDIATE
-      ;
-
-      -- Reference: FK_EntrancesUsers (table: entrances)
-      ALTER TABLE entrances ADD CONSTRAINT FK_EntrancesUsers
-          FOREIGN KEY (user_id)
-          REFERENCES users (id)
           NOT DEFERRABLE
           INITIALLY IMMEDIATE
       ;
