@@ -37,6 +37,7 @@ export default class GenerateDatabaseSchema1615841177415
           CONSTRAINT UQ_OperacoesNome UNIQUE (type) NOT DEFERRABLE  INITIALLY IMMEDIATE,
           CONSTRAINT operations_pk PRIMARY KEY (id)
       );
+      INSERT INTO operations (type) values ('sangria'), ('aporte'), ('venda');
 
       -- Table: payment_methods
       CREATE TABLE payment_methods (
