@@ -1,8 +1,8 @@
 // Dtos
-import ICreateTransactionDTO from '@modules/cashregisters/dtos/ICreateTransactionDTO';
+import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
 
 // Entities
-import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
+import Transaction from '@modules/transactions/infra/models/Transaction';
 
 export default interface ITransactionsRepository {
   create(data: ICreateTransactionDTO): Promise<Transaction>;

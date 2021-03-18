@@ -1,11 +1,11 @@
 import { injectable, inject } from 'tsyringe';
 
 // Models
-import Operation from '@modules/cashregisters/infra/entities/typeorm/Operation';
-import IOperationsRepository from '../repositories/IOperationsRepository';
+import Operation from '@modules/transactions/infra/models/Operation';
+import IOperationsRepository from '@modules/transactions/infra/repositories/IOperationsRepository';
 
 @injectable()
-class ShowAllOperationsService {
+class ListOperationsUseCase {
   constructor(
     @inject('OperationsRepository')
     private operationsRepository: IOperationsRepository,
@@ -18,4 +18,4 @@ class ShowAllOperationsService {
   }
 }
 
-export default ShowAllOperationsService;
+export default ListOperationsUseCase;

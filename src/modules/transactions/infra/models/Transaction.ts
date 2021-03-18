@@ -6,6 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+
 import CashRegister from '@modules/users/infra/models/CashRegister';
 import Operation from './Operation';
 

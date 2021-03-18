@@ -4,10 +4,10 @@ import { getRepository, Repository } from 'typeorm';
 import NotFoundError from '@shared/errors/NotFoundError';
 
 // Interfaces
-import IOperationsRepository from '@modules/cashregisters/repositories/IOperationsRepository';
+import IOperationsRepository from '@modules/transactions/infra/repositories/IOperationsRepository';
 
 // Models
-import Operation from '@modules/cashregisters/infra/entities/typeorm/Operation';
+import Operation from '@modules/transactions/infra/models/Operation';
 
 export default class OperationsRepository implements IOperationsRepository {
   private ormRepository: Repository<Operation>;

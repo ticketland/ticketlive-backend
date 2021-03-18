@@ -1,13 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
 
 // Repositories
-import ITransactionsRepository from '@modules/cashregisters/repositories/ITransactionsRepository';
+import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
 
 // Interfaces
-import ICreateTransactionDTO from '@modules/cashregisters/dtos/ICreateTransactionDTO';
+import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
 
 // Models
-import Transaction from '@modules/cashregisters/infra/entities/typeorm/Transaction';
+import Transaction from '@modules/transactions/infra/models/Transaction';
 
 export default class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
