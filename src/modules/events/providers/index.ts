@@ -1,9 +1,9 @@
 import { container } from 'tsyringe';
 
-import EventsRepository from '@modules/events/infra/repositories/EventsRepository';
-import IEventsRepository from '@modules/events/repositories/IEventsRepository';
+import EventsAPIRepository from '@modules/events/infra/repositories/implementations/EventsAPIRepository';
+import IEventsRepository from '@modules/events/infra/repositories/IEventsRepository';
 
 container.registerSingleton<IEventsRepository>(
-  'EventsRepository',
-  EventsRepository,
+  'EventsAPIRepository',
+  EventsAPIRepository,
 );
