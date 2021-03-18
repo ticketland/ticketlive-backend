@@ -1,5 +1,6 @@
 import path from 'path';
 import crypto from 'crypto';
+import slugify from 'slugify';
 import multer, { StorageEngine } from 'multer';
 
 interface IUploadConfig {
@@ -28,7 +29,7 @@ export default {
       destination: tmpFolder,
       filename(_, file, callback) {
         const fileHash = crypto.randomBytes(10).toString('hex');
-        const fileName = `${fileHash}-${file.originalname}`;
+        const fileName = slugify(`${fileHash}-${file.originalname}`);
 
         return callback(null, fileName);
       },

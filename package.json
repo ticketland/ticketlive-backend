@@ -42,6 +42,7 @@
     "reflect-metadata": "^0.1.13",
     "rootpath": "^0.1.2",
     "sharp": "^0.25.4",
+    "slugify": "^1.4.7",
     "tsyringe": "^4.3.0",
     "typeorm": "^0.2.25",
     "uuidv4": "^6.1.0"
