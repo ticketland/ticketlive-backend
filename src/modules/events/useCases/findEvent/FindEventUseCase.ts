@@ -7,7 +7,7 @@ import IEventsRepository from '@modules/events/infra/repositories/IEventsReposit
 import Event from '@modules/events/infra/models/Event';
 
 interface IRequest {
-  event_slug: string;
+  event_id: string;
 }
 
 @injectable()
@@ -17,8 +17,8 @@ export default class FindEventUseCase {
     private eventsApiRepository: IEventsRepository,
   ) {}
 
-  public async execute({ event_slug }: IRequest): Promise<Event> {
-    const event = await this.eventsApiRepository.findBySlug(event_slug);
+  public async execute({ event_id }: IRequest): Promise<Event> {
+    const event = await this.eventsApiRepository.findByID(event_id);
 
     return event;
   }

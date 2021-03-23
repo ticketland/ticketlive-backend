@@ -7,26 +7,29 @@ export default class Event {
 
   release: string;
 
-  place: string;
+  date: Date;
 
   start_sales: Date;
 
-  start_time: Date;
+  rules: Rule[];
 
-  max_tickets_per_user: number;
-
-  date: Date;
-
-  rules: [];
-
-  address: string;
-
-  files: [];
+  venue: Venue;
 
   producer: Producer;
 
   category: Category;
 }
+
+type Rule = {
+  id: string;
+  rule: string;
+};
+
+type Venue = {
+  id: string;
+  name: string;
+  address: string;
+};
 
 type Producer = {
   id: string;

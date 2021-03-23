@@ -16,10 +16,8 @@ export default class EventsApiRepository implements IEventsRepository {
     private httpProvider: IHttpProvider,
   ) {}
 
-  public async findBySlug(event_slug: string): Promise<Event> {
-    const event = await this.httpProvider
-      .callAPI()
-      .get(`/events/${event_slug}`);
+  public async findByID(event_id: string): Promise<Event> {
+    const event = await this.httpProvider.callAPI().get(`/events/${event_id}`);
 
     return event.data;
   }

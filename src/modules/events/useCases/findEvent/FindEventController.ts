@@ -5,12 +5,12 @@ import FindEventUseCase from './FindEventUseCase';
 
 export default class FindEventController {
   public async handle(request: Request, response: Response): Promise<Response> {
-    const { event_slug } = request.params;
+    const { event_id } = request.params;
 
     const findEventUseCase = container.resolve(FindEventUseCase);
 
-    const event = await findEventUseCase.execute({ event_slug });
+    const event = await findEventUseCase.execute({ event_id });
 
-    return response.json({ event });
+    return response.json(event);
   }
 }
