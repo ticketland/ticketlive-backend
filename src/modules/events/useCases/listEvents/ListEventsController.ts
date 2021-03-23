@@ -9,6 +9,6 @@ export default class ListEventsController {
 
     const events = await listEventsUseCase.execute();
 
-    return response.json({ events });
+    return response.json(events);
   }
 }
