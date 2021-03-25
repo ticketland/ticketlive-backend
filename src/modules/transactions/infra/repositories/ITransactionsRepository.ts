@@ -2,7 +2,13 @@ import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransaction
 import Transaction from '@modules/transactions/infra/models/Transaction';
 
 export default interface ITransactionsRepository {
-  create(data: ICreateTransactionDTO): Promise<Transaction>;
+  create({
+    cash_register_id,
+    sale_id,
+    operation_id,
+    value,
+    user_id,
+  }: ICreateTransactionDTO): Promise<Transaction>;
   save(data: Transaction): Promise<Transaction>;
   findByID(id: string): Promise<Transaction | undefined>;
   all(): Promise<Transaction[]>;

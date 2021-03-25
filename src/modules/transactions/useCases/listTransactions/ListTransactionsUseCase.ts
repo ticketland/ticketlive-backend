@@ -1,11 +1,10 @@
 import { injectable, inject } from 'tsyringe';
 
-// Models
 import Transaction from '@modules/transactions/infra/models/Transaction';
-import ITransactionsRepository from '../repositories/ITransactionsRepository';
+import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
 
 @injectable()
-class ShowTransactionsService {
+class ListTransactionsUseCase {
   constructor(
     @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
@@ -19,4 +18,4 @@ class ShowTransactionsService {
   }
 }
 
-export default ShowTransactionsService;
+export default ListTransactionsUseCase;

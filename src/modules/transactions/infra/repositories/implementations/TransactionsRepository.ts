@@ -14,8 +14,6 @@ export default class TransactionsRepository implements ITransactionsRepository {
   public async create(data: ICreateTransactionDTO): Promise<Transaction> {
     const createTransaction = this.ormRepository.create(data);
 
-    await this.ormRepository.save(createTransaction);
-
     return createTransaction;
   }
 
