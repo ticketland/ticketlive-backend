@@ -2,7 +2,7 @@ import Reservation from '@modules/reservations/infra/models/Reservation';
 
 // DTOs
 import ISendTicketsReservationDTO from '@modules/reservations/dtos/ISendTicketsReservationDTO';
-import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
+import Ticket from '@modules/tickets/infra/models/Ticket';
 
 export default interface IReservationsRepository {
   create(data: ISendTicketsReservationDTO): Promise<Reservation>;
