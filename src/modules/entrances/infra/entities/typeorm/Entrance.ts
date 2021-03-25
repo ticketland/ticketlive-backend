@@ -4,12 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   JoinColumn,
-  ManyToOne,
   OneToOne,
 } from 'typeorm';
 
-// Entitites
-import Ticket from '@modules/tickets/infra/entities/typeorm/Ticket';
+import Ticket from '@modules/tickets/infra/models/Ticket';
 
 @Entity('entrances')
 class Entrance {
