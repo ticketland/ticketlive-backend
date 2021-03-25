@@ -31,12 +31,12 @@ class CreateCashRegisterUseCase {
     opening_value,
   }: IRequest): Promise<CashRegister> {
     const user = await this.usersRepository.findByID(user_id, [
-      'cashRegisters',
+      'cash_registers',
     ]);
 
     if (!user) throw new NotFoundError();
 
-    const oneHasOpenCashRegister = !!user.cashRegisters.find(
+    const oneHasOpenCashRegister = !!user.cash_registers.find(
       cashRegister => cashRegister.closed_at === null,
     );
 
@@ -46,6 +46,7 @@ class CreateCashRegisterUseCase {
     const cashRegisters = await this.cashRegistersRepository.create({
       user_id: user.id,
       opening_value,
+      current_value: opening_value,
     });
 
     return cashRegisters;

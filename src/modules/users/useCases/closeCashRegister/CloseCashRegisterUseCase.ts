@@ -13,7 +13,6 @@ import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository
 interface IRequest {
   user_id: string;
   cash_register_id: string;
-  closing_value: number;
 }
 
 @injectable()
@@ -29,7 +28,6 @@ class CloseCashRegisterUseCase {
   public async execute({
     user_id,
     cash_register_id,
-    closing_value,
   }: IRequest): Promise<CashRegister> {
     const user = await this.usersRepository.findByID(user_id);
 
@@ -42,7 +40,7 @@ class CloseCashRegisterUseCase {
     if (!cashRegister) throw new NotFoundError();
 
     const closeCashRegister = Object.assign(cashRegister, {
-      closing_value,
+      closing_value: cashRegister.current_value,
       closed_at: new Date(),
     });
 

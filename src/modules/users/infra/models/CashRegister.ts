@@ -24,6 +24,9 @@ class CashRegister {
   opening_value: number;
 
   @Column()
+  current_value: number;
+
+  @Column()
   closing_value: number;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
@@ -33,7 +36,7 @@ class CashRegister {
   closed_at: string;
 
   // Relationships
-  @ManyToOne(() => User, user => user.cashRegisters)
+  @ManyToOne(() => User, user => user.cash_registers)
   @JoinColumn({ name: 'user_id' })
   user: User;
 

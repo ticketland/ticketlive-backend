@@ -6,7 +6,7 @@ import uploadConfig from '@config/upload';
 
 // Entitites
 // import Entrance from '@modules/entrances/infra/entities/typeorm/Entrance';
-// import Sale from '@modules/sales/infra/entities/typeorm/Sale';
+// import Sale from '@modules/sales/infra/models/Sale';
 import CashRegister from './CashRegister';
 
 @Entity('users')
@@ -53,7 +53,7 @@ class User {
   // vendas: Sale[];
 
   @OneToMany(() => CashRegister, cashRegister => cashRegister.user)
-  cashRegisters: CashRegister[];
+  cash_registers: CashRegister[];
 }
 
 export default User;
