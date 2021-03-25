@@ -1,46 +1,24 @@
 import 'reflect-metadata';
 import 'dotenv/config';
-
-import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
-import { container } from 'tsyringe';
-import acl from 'express-acl';
-import cors from 'cors';
-
-// Configs
-import uploadConfig from '@config/upload';
-import aclConfig from '@config/acl';
-
-// Errors
-import AppError from '@shared/errors/AppError';
-
-// Interfaces
-import IQueueProvider from '@shared/container/providers/QueueProvider/models/IQueueProvider';
-
-// Router
-import routes from './routes';
-
 import '@shared/infra/typeorm';
 import '@shared/container';
+import express, { Request, Response, NextFunction } from 'express';
+import { errors } from 'celebrate';
+import acl from 'express-acl';
+import cors from 'cors';
+import uploadConfig from '@config/upload';
+import aclConfig from '@config/acl';
+import AppError from '@shared/errors/AppError';
+import routes from './routes';
 
-// Init Queues
-const queueProvider: IQueueProvider = container.resolve('QueueProvider');
-
-queueProvider.ui();
-queueProvider.process();
-// queueProvider.add({ name: 'TestJob' });
-// queueProvider.schedule({ name: 'TestJob', date: '2020-06-18 12:34:00' });
-// queueProvider.remove({ name: 'TestJob', jobId: 92 });
-
-// Init Server
 const app = express();
 app.use(cors());
-
-// Set express to json requests
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
-
 app.use(routes);
+app.use(errors());
+
 acl.config(aclConfig.config, aclConfig.responseObject);
 
 // Global Error Handler

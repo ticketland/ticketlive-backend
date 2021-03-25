@@ -14,6 +14,7 @@ export default class GenerateDatabaseSchema1615841177415
           user_id uuid  NOT NULL,
           opening_value real  NOT NULL DEFAULT 0,
           closing_value real  NULL,
+          current_value real NOT NULL DEFAULT 0,
           created_at timestamp  NOT NULL DEFAULT NOW(),
           closed_at timestamp  NULL,
           CONSTRAINT cash_registers_pk PRIMARY KEY (id)
@@ -305,9 +306,6 @@ export default class GenerateDatabaseSchema1615841177415
 
       ALTER TABLE entrances
           DROP CONSTRAINT FK_EntrancesTickets;
-
-      ALTER TABLE entrances
-          DROP CONSTRAINT FK_EntrancesUsers;
 
       ALTER TABLE reservations
           DROP CONSTRAINT FK_ReservationsUsers;
