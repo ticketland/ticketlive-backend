@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-// Entities
 import Transaction from '@modules/transactions/infra/models/Transaction';
 
 @Entity('operations')

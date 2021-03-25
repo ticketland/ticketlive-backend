@@ -1,12 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 
-// Repositories
 import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
-
-// Interfaces
 import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
-
-// Models
 import Transaction from '@modules/transactions/infra/models/Transaction';
 
 export default class TransactionsRepository implements ITransactionsRepository {

@@ -1,7 +1,4 @@
-// Dtos
 import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
-
-// Entities
 import Transaction from '@modules/transactions/infra/models/Transaction';
 
 export default interface ITransactionsRepository {
