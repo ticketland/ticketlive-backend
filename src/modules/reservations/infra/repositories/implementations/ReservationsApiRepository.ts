@@ -35,6 +35,16 @@ interface ReservationResponse {
     ticket_type_id: string;
     quantity: number;
     reservation_id: string;
+    ticket_type: {
+      id: string;
+      ticket_tier_id: string;
+      type: string;
+      description: string;
+      price_in_cents: number;
+      available_tickets: number;
+      reserved_tickets: number;
+      sold_tickets: number;
+    };
   }[];
 }
 
@@ -102,9 +112,15 @@ export default class ReservationsApiRepository
         .callAPI()
         .post<TicketResponse[]>(`/reservations/${reservation_id}/tickets`);
 
-      const tickets = response.data.forEach(ticket => {
-        Object.assign(new Ticket(), {
-          id,
+      const tickets = response.data.map(ticket => {
+        return Object.assign(new Ticket(), {
+          id: ticket.id,
+          ext_event_id: ticket.event_id,
+          event_name: ticket.event.name,
+          event_date: ticket.event.date,
+          ticket_type: ticket.ticket_type.type,
+          code: ticket.code,
+          price_in_cents: ticket.ticket_type.price_in_cents,
         });
       });
 

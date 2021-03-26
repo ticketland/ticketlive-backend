@@ -7,6 +7,8 @@ export default class Event {
 
   release: string;
 
+  capacity: number;
+
   date: Date;
 
   start_sales: Date;

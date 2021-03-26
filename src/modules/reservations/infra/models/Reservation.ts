@@ -2,7 +2,12 @@ import { Entity, Column, CreateDateColumn, PrimaryColumn } from 'typeorm';
 
 type ReservationTicket = {
   quantity: number;
-  ticket_type_id: string;
+  ticket_type: {
+    id: string;
+    type: string;
+    description: string;
+    price_in_cents: number;
+  };
 };
 
 @Entity('reservations')
