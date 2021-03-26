@@ -6,7 +6,7 @@ import CreateCashRegisterUseCase from './CreateCashRegisterUseCase';
 export default class CreateCashRegisterController {
   public async handle(request: Request, response: Response): Promise<Response> {
     const { id: user_id } = request.user;
-    const { opening_value } = request.body;
+    const { opening_balance } = request.body;
 
     const createCashRegisterUseCase = container.resolve(
       CreateCashRegisterUseCase,
@@ -14,7 +14,7 @@ export default class CreateCashRegisterController {
 
     const cashRegister = await createCashRegisterUseCase.execute({
       user_id,
-      opening_value,
+      opening_balance,
     });
 
     return response.json({ cashRegister });

@@ -1,5 +1,5 @@
 export default interface ICreateCashRegisterDTO {
   user_id: string;
-  opening_value: number;
-  current_value: number;
+  opening_balance: number;
+  current_balance: number;
 }

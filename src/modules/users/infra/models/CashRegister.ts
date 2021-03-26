@@ -21,13 +21,13 @@ class CashRegister {
   user_id: string;
 
   @Column()
-  opening_value: number;
+  opening_balance: number;
 
   @Column()
-  current_value: number;
+  current_balance: number;
 
   @Column()
-  closing_value: number;
+  closing_balance: number;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at: Date;

@@ -16,7 +16,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreateTransactionUseCase {
+class CreateCashRegisterTransactionUseCase {
   constructor(
     @inject('OperationsRepository')
     private operationsRepository: IOperationsRepository,
@@ -59,10 +59,10 @@ class CreateTransactionUseCase {
 
     switch (operation_type) {
       case 'sangria':
-        cashRegister.current_value -= value;
+        cashRegister.current_balance -= value;
         break;
       default:
-        cashRegister.current_value += value;
+        cashRegister.current_balance += value;
         break;
     }
 
@@ -82,4 +82,4 @@ class CreateTransactionUseCase {
   }
 }
 
-export default CreateTransactionUseCase;
+export default CreateCashRegisterTransactionUseCase;

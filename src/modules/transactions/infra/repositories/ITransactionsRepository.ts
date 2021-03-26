@@ -4,7 +4,7 @@ import Transaction from '@modules/transactions/infra/models/Transaction';
 export default interface ITransactionsRepository {
   create({
     cash_register_id,
-    sale_id,
+    sales,
     operation_id,
     value,
     user_id,

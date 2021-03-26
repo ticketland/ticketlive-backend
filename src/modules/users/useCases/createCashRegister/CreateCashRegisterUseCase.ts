@@ -13,7 +13,7 @@ import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository
 
 interface IRequest {
   user_id: string;
-  opening_value: number;
+  opening_balance: number;
 }
 
 @injectable()
@@ -28,7 +28,7 @@ class CreateCashRegisterUseCase {
 
   public async execute({
     user_id,
-    opening_value,
+    opening_balance,
   }: IRequest): Promise<CashRegister> {
     const user = await this.usersRepository.findByID(user_id, [
       'cash_registers',
@@ -45,8 +45,8 @@ class CreateCashRegisterUseCase {
 
     const cashRegisters = await this.cashRegistersRepository.create({
       user_id: user.id,
-      opening_value,
-      current_value: opening_value,
+      opening_balance,
+      current_balance: opening_balance,
     });
 
     return cashRegisters;

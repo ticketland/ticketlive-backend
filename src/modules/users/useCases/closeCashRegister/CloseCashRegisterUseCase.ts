@@ -40,7 +40,7 @@ class CloseCashRegisterUseCase {
     if (!cashRegister) throw new NotFoundError();
 
     const closeCashRegister = Object.assign(cashRegister, {
-      closing_value: cashRegister.current_value,
+      closing_balance: cashRegister.current_balance,
       closed_at: new Date(),
     });
 

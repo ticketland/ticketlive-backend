@@ -5,9 +5,11 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import CashRegister from '@modules/users/infra/models/CashRegister';
+import SaleTransaction from '@modules/sales/infra/models/SaleTransaction';
 import Operation from './Operation';
 
 @Entity('transactions')
@@ -38,6 +40,9 @@ class Transaction {
   @ManyToOne(() => CashRegister, cashRegister => cashRegister.transactions)
   @JoinColumn({ name: 'cash_register_id' })
   cashRegister: CashRegister;
+
+  @OneToMany(() => SaleTransaction, saleTransaction => saleTransaction.sale)
+  sale_transactions: SaleTransaction[];
 }
 
 export default Transaction;
