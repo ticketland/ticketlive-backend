@@ -5,16 +5,16 @@ export default class GenerateDatabaseSchema1615841177415
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       -- Created by Vertabelo (http://vertabelo.com)
-      -- Last modification date: 2021-03-17 20:31:51.917
+      -- Last modification date: 2021-03-26 13:00:45.902
 
       -- tables
       -- Table: cash_registers
       CREATE TABLE cash_registers (
           id uuid  NOT NULL DEFAULT uuid_generate_v4(),
           user_id uuid  NOT NULL,
-          opening_value real  NOT NULL DEFAULT 0,
-          closing_value real  NULL,
-          current_value real NOT NULL DEFAULT 0,
+          opening_balance real  NOT NULL DEFAULT 0,
+          current_balance real  NOT NULL DEFAULT 0,
+          closing_balance real  NULL,
           created_at timestamp  NOT NULL DEFAULT NOW(),
           closed_at timestamp  NULL,
           CONSTRAINT cash_registers_pk PRIMARY KEY (id)
@@ -23,7 +23,6 @@ export default class GenerateDatabaseSchema1615841177415
       -- Table: entrances
       CREATE TABLE entrances (
           id uuid  NOT NULL DEFAULT uuid_generate_v4(),
-          user_id uuid  NOT NULL,
           ticket_id uuid  NOT NULL,
           ext_event_id integer  NOT NULL,
           ext_participant_id integer  NULL,
@@ -35,10 +34,11 @@ export default class GenerateDatabaseSchema1615841177415
       CREATE TABLE operations (
           id uuid  NOT NULL DEFAULT uuid_generate_v4(),
           type varchar(20)  NOT NULL,
-          CONSTRAINT UQ_OperacoesNome UNIQUE (type) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+          CONSTRAINT UQ_OperationName UNIQUE (type) NOT DEFERRABLE  INITIALLY IMMEDIATE,
           CONSTRAINT operations_pk PRIMARY KEY (id)
       );
-      INSERT INTO operations (type) values ('sangria'), ('aporte'), ('venda');
+
+      INSERT INTO operations (type) values ('sangria'), ('aporte'), ('venda');;
 
       -- Table: payment_methods
       CREATE TABLE payment_methods (
@@ -95,16 +95,19 @@ export default class GenerateDatabaseSchema1615841177415
       CREATE TABLE sale_transaction (
           sale_id uuid  NOT NULL,
           transaction_id uuid  NOT NULL,
+          payment_method_id uuid  NOT NULL,
           CONSTRAINT sale_transaction_pk PRIMARY KEY (sale_id,transaction_id)
       );
 
       -- Table: sales
       CREATE TABLE sales (
           id uuid  NOT NULL DEFAULT uuid_generate_v4(),
-          payment_method_id uuid  NOT NULL,
-          ext_participant_id integer  NULL,
           created_at timestamp  NOT NULL DEFAULT NOW(),
           user_id uuid  NOT NULL,
+          price_in_cents int  NOT NULL,
+          reservation_id uuid  NOT NULL,
+          status varchar  NOT NULL DEFAULT 'incomplete',
+          completed_at timestamp  NULL,
           CONSTRAINT sales_pk PRIMARY KEY (id)
       );
 
@@ -146,7 +149,7 @@ export default class GenerateDatabaseSchema1615841177415
           email varchar(255)  NOT NULL,
           cpf varchar(11)  NOT NULL,
           password varchar(60)  NOT NULL,
-          avatar varchar,
+          avatar varchar  NULL,
           CONSTRAINT UQ_UsuariosEmail UNIQUE (email) NOT DEFERRABLE  INITIALLY IMMEDIATE,
           CONSTRAINT UQ_UsuariosCPF UNIQUE (cpf) NOT DEFERRABLE  INITIALLY IMMEDIATE,
           CONSTRAINT users_pk PRIMARY KEY (id)
@@ -219,14 +222,6 @@ export default class GenerateDatabaseSchema1615841177415
           INITIALLY IMMEDIATE
       ;
 
-      -- Reference: FK_SalePaymentMethod (table: sales)
-      ALTER TABLE sales ADD CONSTRAINT FK_SalePaymentMethod
-          FOREIGN KEY (payment_method_id)
-          REFERENCES payment_methods (id)
-          NOT DEFERRABLE
-          INITIALLY IMMEDIATE
-      ;
-
       -- Reference: FK_SaleTransactionSales (table: sale_transaction)
       ALTER TABLE sale_transaction ADD CONSTRAINT FK_SaleTransactionSales
           FOREIGN KEY (sale_id)
@@ -291,6 +286,22 @@ export default class GenerateDatabaseSchema1615841177415
           INITIALLY IMMEDIATE
       ;
 
+      -- Reference: sale_transaction_payment_methods (table: sale_transaction)
+      ALTER TABLE sale_transaction ADD CONSTRAINT sale_transaction_payment_methods
+          FOREIGN KEY (payment_method_id)
+          REFERENCES payment_methods (id)
+          NOT DEFERRABLE
+          INITIALLY IMMEDIATE
+      ;
+
+      -- Reference: sales_reservations (table: sales)
+      ALTER TABLE sales ADD CONSTRAINT sales_reservations
+          FOREIGN KEY (reservation_id)
+          REFERENCES reservations (id)
+          NOT DEFERRABLE
+          INITIALLY IMMEDIATE
+      ;
+
       -- End of file.
     `);
   }
@@ -298,7 +309,7 @@ export default class GenerateDatabaseSchema1615841177415
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       -- Created by Vertabelo (http://vertabelo.com)
-      -- Last modification date: 2021-03-17 20:31:51.917
+      -- Last modification date: 2021-03-26 12:57:37.679
 
       -- foreign keys
       ALTER TABLE cash_registers
@@ -321,9 +332,6 @@ export default class GenerateDatabaseSchema1615841177415
 
       ALTER TABLE role_user
           DROP CONSTRAINT FK_RoleUserUsers;
-
-      ALTER TABLE sales
-          DROP CONSTRAINT FK_SalePaymentMethod;
 
       ALTER TABLE sale_transaction
           DROP CONSTRAINT FK_SaleTransactionSales;
@@ -348,6 +356,12 @@ export default class GenerateDatabaseSchema1615841177415
 
       ALTER TABLE transactions
           DROP CONSTRAINT FK_TransactionsUsers;
+
+      ALTER TABLE sale_transaction
+          DROP CONSTRAINT sale_transaction_payment_methods;
+
+      ALTER TABLE sales
+          DROP CONSTRAINT sales_reservations;
 
       -- tables
       DROP TABLE cash_registers;
