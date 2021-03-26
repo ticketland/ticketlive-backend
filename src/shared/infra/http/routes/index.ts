@@ -26,9 +26,9 @@ routes.use('/events', eventsRouter);
 routes.use('/tickets/validate', validateTicketRouter);
 routes.use('/payment-methods', paymentMethodRouter);
 routes.use('/operations', operationRouter);
-routes.use('/cashregisters', [ensureAuthenticated], cashregisterRouter);
+routes.use('/cash-registers', [ensureAuthenticated], cashregisterRouter);
 routes.use('/reservations', [ensureAuthenticated], ticketReservationRouter);
 routes.use('/transactions', [ensureAuthenticated], transactionsRouter);
-// routes.use('/sales', [ensureAuthenticated], salesRouter);
+routes.use('/sales', [ensureAuthenticated], salesRouter);
 
 export default routes;
