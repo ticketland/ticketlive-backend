@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { getConnection } from 'typeorm';
 
 import NotFoundError from '@shared/errors/NotFoundError';
 import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
@@ -8,7 +9,6 @@ import UserWithoutOpenedCashRegisterError from '@modules/users/errors/UserWithou
 import ReservationAlreadyCompletedError from '@modules/reservations/errors/ReservationAlreadyCompletedError';
 import AppError from '@shared/errors/AppError';
 import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
-import { getConnection } from 'typeorm';
 import Ticket from '@modules/tickets/infra/models/Ticket';
 import Transaction from '@modules/transactions/infra/models/Transaction';
 
@@ -105,8 +105,6 @@ export default class CreateSaleUseCase {
       completed_at: new Date(),
     });
 
-    console.log(transactions);
-
     try {
       await getConnection().transaction(async transactionalEntityManager => {
         await transactionalEntityManager.save(transactions);
@@ -114,7 +112,6 @@ export default class CreateSaleUseCase {
         await transactionalEntityManager.save(reservation);
       });
     } catch (err) {
-      console.log(err);
       throw new AppError(
         'Could not create transaction at the moment. Try again.',
         500,
