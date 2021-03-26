@@ -1,19 +1,14 @@
 import { injectable, inject } from 'tsyringe';
 
-// Errors
-
-// Entities
-import PaymentMethod from '@modules/sales/infra/entities/typeorm/PaymentMethod';
-
-// Interfaces
-import IPaymentMethodsRepository from '../repositories/IPaymentMethodsRepository';
+import PaymentMethod from '@modules/sales/infra/models/PaymentMethod';
+import IPaymentMethodsRepository from '@modules/sales/infra/repositories/IPaymentMethodsRepository';
 
 interface IRequest {
   type: string;
 }
 
 @injectable()
-class CreatePaymentMethodService {
+class CreatePaymentMethodUseCase {
   constructor(
     @inject('PaymentMethodsRepository')
     private paymentMethodsRepository: IPaymentMethodsRepository,
@@ -28,4 +23,4 @@ class CreatePaymentMethodService {
   }
 }
 
-export default CreatePaymentMethodService;
+export default CreatePaymentMethodUseCase;

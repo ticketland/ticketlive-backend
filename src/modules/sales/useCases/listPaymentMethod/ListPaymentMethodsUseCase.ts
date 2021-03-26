@@ -1,11 +1,10 @@
 import { injectable, inject } from 'tsyringe';
 
-// Models
-import PaymentMethod from '@modules/sales/infra/entities/typeorm/PaymentMethod';
-import IPaymentMethodsRepository from '../repositories/IPaymentMethodsRepository';
+import PaymentMethod from '@modules/sales/infra/models/PaymentMethod';
+import IPaymentMethodsRepository from '@modules/sales/infra/repositories/IPaymentMethodsRepository';
 
 @injectable()
-class ShowPaymentMethodsService {
+class ListPaymentMethodsUseCase {
   constructor(
     @inject('PaymentMethodsRepository')
     private paymentMethodsRepository: IPaymentMethodsRepository,
@@ -18,4 +17,4 @@ class ShowPaymentMethodsService {
   }
 }
 
-export default ShowPaymentMethodsService;
+export default ListPaymentMethodsUseCase;

@@ -1,13 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 
-// Repositories
-import ISalesRepository from '@modules/sales/repositories/ISalesRepository';
-
-// Interfaces
+import ISalesRepository from '@modules/sales/infra/repositories/ISalesRepository';
 import ICreateSaleDTO from '@modules/sales/dtos/ICreateSaleDTO';
-
-// Models
-import Sale from '@modules/sales/infra/entities/typeorm/Sale';
+import Sale from '@modules/sales/infra/models/Sale';
 
 export default class EntranceRepository implements ISalesRepository {
   private ormRepository: Repository<Sale>;
@@ -18,8 +13,6 @@ export default class EntranceRepository implements ISalesRepository {
 
   public async create(saleData: ICreateSaleDTO): Promise<Sale> {
     const sale = this.ormRepository.create(saleData);
-
-    await this.ormRepository.save(sale);
 
     return sale;
   }

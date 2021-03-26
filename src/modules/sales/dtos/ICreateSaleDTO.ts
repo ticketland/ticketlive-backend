@@ -1,5 +1,5 @@
 export default interface ICreateSaleDTO {
-  payment_method_id: string;
-  ext_participant_id?: string;
   user_id: string;
+  reservation_id: string;
+  price_in_cents: number;
 }
