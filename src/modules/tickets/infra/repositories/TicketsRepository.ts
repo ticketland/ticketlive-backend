@@ -2,7 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 
-import Ticket from '../entities/typeorm/Ticket';
+import Ticket from '@modules/tickets/infra/models/Ticket';
 
 export default class TicketsRepository implements ITicketsRepository {
   private ormRepository: Repository<Ticket>;

@@ -6,9 +6,8 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
-import { Exclude, Expose } from 'class-transformer';
 
-import Sale from '@modules/sales/infra/entities/typeorm/Sale';
+import Sale from '@modules/sales/infra/models/Sale';
 
 @Entity('tickets')
 class Ticket {
@@ -22,16 +21,22 @@ class Ticket {
   ext_event_id: number;
 
   @Column()
+  event_name: string;
+
+  @Column({ type: 'timestamptz', select: false })
+  event_date: Date;
+
+  @Column()
   participant_name: string;
 
   @Column()
-  sector: string;
+  ticket_type: string;
 
   @Column()
   code: string;
 
-  @CreateDateColumn({ type: 'timestamptz', select: false })
-  event_date: Date;
+  @Column()
+  price_in_cents: number;
 
   // Relationships;
   @ManyToOne(() => Sale, sale => sale.tickets)
