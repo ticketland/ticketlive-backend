@@ -10,7 +10,7 @@ psql -U username -d ticketlive -a -f scriptDB.sql
 # Instalar dependencias
 npm install || yarn
 
-# Rodar migration 
+# Rodar migration
 npm run typeorm migration:run || yarn typeorm migration:run
 
 # Rodar servidor
@@ -20,7 +20,7 @@ npm run dev:server || yarn dev:server
 A partir desse ponto um servidor local estará rodando na porta 3333 do seu computador.
 
 ## Insomnia
-Junto na raiz desse repositório está o arquivo "ticketliveInsomnia.json", esse arquivo permite que todos os requests já implementados sejam importados no programa "Insomnia". 
+Junto na raiz desse repositório está o arquivo "ticketliveInsomnia.json", esse arquivo permite que todos os requests já implementados sejam importados no programa "Insomnia".
 Com o insomnia rodando o arquivo disponibilizado será possível fazer as chamadas e visualizar seus resultados.
 
 #### Atenção
@@ -60,3 +60,14 @@ Com o insomnia rodando o arquivo disponibilizado será possível fazer as chamad
   - [ ] Usuário deve ser capaz de gerar ingressos a partir de uma reserva
   - [ ] Usuário deve ser capaz de validar ingresso
   - [ ] Administrador deve ser capaz de visualizar todos os ingressos para o evento
+
+## REQUISITOS
+
+## Realizar venda
+### **RF**
+  Deve ser possível realizar uma venda a partir de uma reserva de ingressos
+
+### **RNF**
+  Não estão ligados com as regras de negócio (Deverá ser utilizado postgres)
+
+### **RN**

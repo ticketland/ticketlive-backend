@@ -7,18 +7,22 @@ import authConfig from '@config/auth';
 // Errors
 import AppError from '@shared/errors/AppError';
 
+import UsersRepository from '@modules/users/infra/repositories/implementations/UsersRepository'
+import NotFoundError from '@shared/errors/NotFoundError';
+
 interface TokenPayload {
   iat: number;
   exp: number;
   sub: string;
 }
 
-export default function ensureAuthenticated(
+export default async function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
-): void {
+): Promise<void> {
   const authHeader = request.headers.authorization;
+  const usersRepository = new UsersRepository();
 
   if (!authHeader) {
     throw new AppError('JWT token is missing.', 401);
@@ -29,12 +33,12 @@ export default function ensureAuthenticated(
   try {
     const decoded = verify(token, authConfig.jwt.secret);
 
-    const { sub } = decoded as TokenPayload;
+    const { sub: user_id } = decoded as TokenPayload;
 
-    // sub contains [id, role]
-    const splitedSub = sub.split(',');
+    const user = await usersRepository.findByID(user_id)
+    if (!user) throw new NotFoundError()
 
-    request.user = { id: splitedSub[0], role: splitedSub[1] };
+    request.user = { id: user_id }
 
     return next();
   } catch {

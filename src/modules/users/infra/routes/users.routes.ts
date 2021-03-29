@@ -10,7 +10,7 @@ import CreateUserController from '@modules/users/useCases/createUser/CreateUserC
 import ShowAuthenticatedUserController from '@modules/users/useCases/showAuthenticatedUser/ShowAuthenticatedUserController';
 
 // Middleware
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
 

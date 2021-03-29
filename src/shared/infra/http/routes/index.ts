@@ -2,7 +2,7 @@ import { Router } from 'express';
 import acl from 'express-acl';
 
 // Middleware
-import ensureAuthenticated from '@modules/users/infra/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 
 // Routers
 import usersRouter from '@modules/users/infra/routes/users.routes';

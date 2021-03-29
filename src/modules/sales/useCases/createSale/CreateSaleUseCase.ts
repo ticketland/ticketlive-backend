@@ -1,11 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 import { getConnection } from 'typeorm';
 
-import NotFoundError from '@shared/errors/NotFoundError';
-import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 import ISalesRepository from '@modules/sales/infra/repositories/ISalesRepository';
 import IReservationRepository from '@modules/reservations/infra/repositories/IReservationsRepository';
-import UserWithoutOpenedCashRegisterError from '@modules/users/errors/UserWithoutOpenedCashRegisterError';
 import ReservationAlreadyCompletedError from '@modules/reservations/errors/ReservationAlreadyCompletedError';
 import AppError from '@shared/errors/AppError';
 import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
@@ -14,6 +11,7 @@ import Transaction from '@modules/transactions/infra/models/Transaction';
 
 interface IRequest {
   user_id: string;
+  cash_register_id: string;
   reservation_id: string;
   payments: {
     payment_method_id: string;
@@ -24,9 +22,6 @@ interface IRequest {
 @injectable()
 export default class CreateSaleUseCase {
   constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
-
     @inject('ReservationsApiRepository')
     private reservationsApiRepository: IReservationRepository,
 
@@ -38,34 +33,25 @@ export default class CreateSaleUseCase {
 
     @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
-  ) {}
+  ) { }
 
   public async execute({
     user_id,
+    cash_register_id,
     reservation_id,
     payments,
   }: IRequest): Promise<Ticket[]> {
-    const findUser = await this.usersRepository.findByID(user_id, [
-      'cash_registers',
-    ]);
-    if (!findUser) throw new NotFoundError();
-
-    const cashRegister = findUser.cash_registers.find(
-      cash_register => cash_register.closed_at === null,
-    );
-    if (!cashRegister) throw new UserWithoutOpenedCashRegisterError();
-
     const reservation = await this.reservationsRepository.findByIdOrFail(
       reservation_id,
     );
-    const {
-      reservation_tickets,
-    } = await this.reservationsApiRepository.findByIdOrFail(reservation_id);
     if (reservation.status !== 'waiting')
       throw new ReservationAlreadyCompletedError(
         'Cannot create sale from reservation already completed',
         400,
       );
+    const {
+      reservation_tickets,
+    } = await this.reservationsApiRepository.findByIdOrFail(reservation_id);
 
     const salePrice = reservation_tickets.reduce(
       (totalPrice, ticket) =>
@@ -92,7 +78,7 @@ export default class CreateSaleUseCase {
       transactions.push(
         // eslint-disable-next-line no-await-in-loop
         await this.transactionsRepository.create({
-          cash_register_id: cashRegister.id,
+          cash_register_id,
           operation_id: '9f0412dc-5999-47db-9aec-a2e8e90ed9ae',
           user_id,
           value: payment.value,
