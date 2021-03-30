@@ -1,22 +1,27 @@
 import { inject, injectable } from 'tsyringe';
 import { getConnection } from 'typeorm';
 
+import defaultConfig from '@config/defaults'
+
 import ISalesRepository from '@modules/sales/infra/repositories/ISalesRepository';
 import IReservationRepository from '@modules/reservations/infra/repositories/IReservationsRepository';
 import ReservationAlreadyCompletedError from '@modules/reservations/errors/ReservationAlreadyCompletedError';
 import AppError from '@shared/errors/AppError';
 import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
-import Ticket from '@modules/tickets/infra/models/Ticket';
 import Transaction from '@modules/transactions/infra/models/Transaction';
+import ReservationTicket from '@modules/reservations/infra/models/ReservationTicket'
+import Sale from '@modules/sales/infra/models/Sale';
+
+interface Payment {
+  payment_method_id: string;
+  value: number;
+}
 
 interface IRequest {
   user_id: string;
   cash_register_id: string;
   reservation_id: string;
-  payments: {
-    payment_method_id: string;
-    value: number;
-  }[];
+  payments: Payment[];
 }
 
 @injectable()
@@ -40,33 +45,24 @@ export default class CreateSaleUseCase {
     cash_register_id,
     reservation_id,
     payments,
-  }: IRequest): Promise<Ticket[]> {
+  }: IRequest): Promise<Sale> {
     const reservation = await this.reservationsRepository.findByIdOrFail(
       reservation_id,
     );
     if (reservation.status !== 'waiting')
-      throw new ReservationAlreadyCompletedError(
-        'Cannot create sale from reservation already completed',
-        400,
-      );
+      throw new ReservationAlreadyCompletedError('Invalid reservation', 400);
+
     const {
       reservation_tickets,
     } = await this.reservationsApiRepository.findByIdOrFail(reservation_id);
 
-    const salePrice = reservation_tickets.reduce(
-      (totalPrice, ticket) =>
-        totalPrice + ticket.ticket_type.price_in_cents * ticket.quantity,
-      0,
-    );
-    const paymentPrice = payments.reduce(
-      (totalPayment, payment) => totalPayment + payment.value,
-      0,
-    );
+    const salePrice = this.calculateTicketsPrice(reservation_tickets);
+    const paymentPrice = this.calculatePaymentAmount(payments);
 
     if (salePrice !== paymentPrice)
       throw new AppError('Insufficient payment', 400);
 
-    const sale = await this.salesRepository.create({
+    let sale = await this.salesRepository.create({
       user_id,
       reservation_id,
       price_in_cents: salePrice,
@@ -79,9 +75,10 @@ export default class CreateSaleUseCase {
         // eslint-disable-next-line no-await-in-loop
         await this.transactionsRepository.create({
           cash_register_id,
-          operation_id: '9f0412dc-5999-47db-9aec-a2e8e90ed9ae',
+          operation_id: defaultConfig.sales.operation_id,
           user_id,
           value: payment.value,
+          payment_method_id: payment.payment_method_id
         }),
       );
     }
@@ -93,21 +90,38 @@ export default class CreateSaleUseCase {
 
     try {
       await getConnection().transaction(async transactionalEntityManager => {
-        await transactionalEntityManager.save(transactions);
-        await transactionalEntityManager.save(sale);
+        sale = await transactionalEntityManager.save(sale);
+
+        const createTransactions = transactions.map(
+          transaction =>
+            Object.assign(transaction, { sale_id: sale.id })
+        );
+
+        await transactionalEntityManager.save(createTransactions);
         await transactionalEntityManager.save(reservation);
       });
     } catch (err) {
       throw new AppError(
-        'Could not create transaction at the moment. Try again.',
+        'Could not create sale at the moment. Please try again.',
         500,
       );
     }
 
-    const tickets = await this.reservationsApiRepository.generateTickets(
-      reservation_id,
-    );
+    return sale;
+  }
 
-    return tickets;
+  private calculateTicketsPrice(reservation_tickets: ReservationTicket[]) {
+    return reservation_tickets.reduce(
+      (totalPrice, ticket) =>
+        totalPrice + ticket.ticket_type.price_in_cents * ticket.quantity,
+      0,
+    );
+  }
+
+  private calculatePaymentAmount(payments: Payment[]) {
+    return payments.reduce(
+      (totalPayment, payment) => totalPayment + payment.value,
+      0,
+    );
   }
 }

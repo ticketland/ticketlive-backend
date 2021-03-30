@@ -1,4 +1,5 @@
 module.exports = {
   trailingComma = "always",
-  singleQuote = false
+  singleQuote = false,
+  semi = true
 }

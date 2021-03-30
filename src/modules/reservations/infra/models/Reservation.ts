@@ -1,14 +1,6 @@
 import { Entity, Column, CreateDateColumn, PrimaryColumn } from 'typeorm';
 
-type ReservationTicket = {
-  quantity: number;
-  ticket_type: {
-    id: string;
-    type: string;
-    description: string;
-    price_in_cents: number;
-  };
-};
+import ReservationTicket from './ReservationTicket';
 
 @Entity('reservations')
 class Reservation {
