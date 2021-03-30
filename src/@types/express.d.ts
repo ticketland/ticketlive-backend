@@ -5,6 +5,6 @@ declare namespace Express {
     };
     cashRegister: {
       opened_cash_register_id: string;
-    }
+    };
   }
 }

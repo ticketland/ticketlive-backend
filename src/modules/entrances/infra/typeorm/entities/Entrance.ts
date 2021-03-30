@@ -18,10 +18,10 @@ class Entrance {
   ticket_id: string;
 
   @Column()
-  ext_event_id: number;
+  ext_event_id: string;
 
   @Column()
-  ext_participant_id: number;
+  ext_participant_id: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;

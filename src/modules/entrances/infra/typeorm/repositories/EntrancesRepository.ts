@@ -1,15 +1,10 @@
 import { getRepository, Repository } from 'typeorm';
 
-// Interfaces
-import IEntranceRepository from '@modules/entrances/repositories/IEntranceRepository';
-
-// DTOs
+import IEntrancesRepository from '@modules/entrances/repositories/IEntrancesRepository';
 import ICreateEntranceDTO from '@modules/entrances/dtos/ICreateEntranceDTO';
+import Entrance from '@modules/entrances/infra/typeorm/entities/Entrance';
 
-// Models
-import Entrance from '@modules/entrances/infra/entities/typeorm/Entrance';
-
-export default class EntranceRepository implements IEntranceRepository {
+export default class EntrancesRepository implements IEntrancesRepository {
   private ormRepository: Repository<Entrance>;
 
   constructor() {
@@ -25,26 +20,26 @@ export default class EntranceRepository implements IEntranceRepository {
   }
 
   public async findByID(id: string): Promise<Entrance | undefined> {
-    const foundEntrance = await this.ormRepository.findOne(id);
+    const entrance = await this.ormRepository.findOne(id);
 
-    return foundEntrance;
+    return entrance;
   }
 
   public async findByTicketID(
     ticket_id: string,
   ): Promise<Entrance | undefined> {
-    const foundEntrance = await this.ormRepository.findOne({
+    const entrance = await this.ormRepository.findOne({
       where: { ingresso_id: ticket_id },
     });
 
-    return foundEntrance;
+    return entrance;
   }
 
-  public async findByEventID(event_id: string): Promise<Entrance[]> {
-    const foundEntrance = await this.ormRepository.find({
-      where: { evento_id: event_id },
+  public async findByEventID(ext_event_id: string): Promise<Entrance[]> {
+    const entrances = await this.ormRepository.find({
+      where: { ext_event_id },
     });
 
-    return foundEntrance;
+    return entrances;
   }
 }

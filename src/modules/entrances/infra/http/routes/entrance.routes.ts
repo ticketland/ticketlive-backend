@@ -1,12 +1,16 @@
 import { Router } from 'express';
 
 // Contollers
-import EntranceController from '../controllers/EntranceController';
+import CreateEntranceController from '@modules/entrances/useCases/createEntrance/CreateEntranceController'
+import FindEntranceController from '@modules/entrances/useCases/findEntrance/FindEntranceController'
+
+
 
 const entranceRouter = Router();
-const entranceController = new EntranceController();
+const createEntranceController = new CreateEntranceController();
+const findEntranceController = new FindEntranceController();
 
-entranceRouter.post('/', entranceController.create);
-entranceRouter.get('/:entrance_id', entranceController.show);
+entranceRouter.post('/', createEntranceController.handle);
+entranceRouter.get('/:entrance_id', findEntranceController.handle);
 
 export default entranceRouter;

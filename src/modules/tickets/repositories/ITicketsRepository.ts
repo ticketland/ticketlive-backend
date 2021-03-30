@@ -1,10 +1,12 @@
 // Models
-import Ticket from '../infra/entities/typeorm/Ticket';
+import Ticket from "@modules/tickets/infra/models/Ticket";
+
+interface IValidateTicket {
+  ticket_id: string;
+  code: string;
+}
 
 export default interface ITicketsRepository {
-  // save(ticket: Ticket): Promise<Ticket>;
-  // findByID(id: string, relations?: string[]): Promise<Ticket | undefined>;
-  // fetchByTicketID(id: string): Promise<Ticket>;
-  // fetchValidateTicket(ticket_id: string): Promise<boolean>;
-  createMany(tickets: APITicket[], sale_id: string): Promise<Ticket[]>;
+  findByIdOrFail(ticket_id: string): Promise<Ticket>;
+  validate({ ticket_id, code }: IValidateTicket): Promise<boolean>;
 }

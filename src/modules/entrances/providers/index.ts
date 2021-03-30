@@ -1,9 +1,9 @@
 import { container } from 'tsyringe';
 
-import IEntranceRepository from '@modules/entrances/repositories/IEntranceRepository';
-import EntranceRepository from '@modules/entrances/infra/repositories/EntranceRepository';
+import IEntrancesRepository from '@modules/entrances/repositories/IEntrancesRepository';
+import EntrancesRepository from '@modules/entrances/infra/typeorm/repositories/EntrancesRepository';
 
-container.registerSingleton<IEntranceRepository>(
-  'EntranceRepository',
-  EntranceRepository,
+container.registerSingleton<IEntrancesRepository>(
+  'EntrancesRepository',
+  EntrancesRepository,
 );
