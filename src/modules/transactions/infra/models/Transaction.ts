@@ -9,8 +9,9 @@ import {
 } from 'typeorm';
 
 import CashRegister from '@modules/users/infra/models/CashRegister';
-import SaleTransaction from '@modules/sales/infra/models/SaleTransaction';
 import Operation from './Operation';
+import PaymentMethod from '@modules/sales/infra/models/PaymentMethod';
+import Sale from '@modules/sales/infra/models/Sale';
 
 @Entity('transactions')
 class Transaction {
@@ -22,6 +23,12 @@ class Transaction {
 
   @Column()
   operation_id: string;
+
+  @Column()
+  payment_method_id: string;
+
+  @Column()
+  sale_id: string;
 
   @Column()
   value: number;
@@ -41,8 +48,13 @@ class Transaction {
   @JoinColumn({ name: 'cash_register_id' })
   cashRegister: CashRegister;
 
-  @OneToMany(() => SaleTransaction, saleTransaction => saleTransaction.sale)
-  sale_transactions: SaleTransaction[];
+  @ManyToOne(() => PaymentMethod)
+  @JoinColumn({ name: 'payment_method_id' })
+  payment_method: PaymentMethod;
+
+  @ManyToOne(() => Sale)
+  @JoinColumn({ name: 'sale_id' })
+  sale: PaymentMethod;
 }
 
 export default Transaction;

@@ -12,7 +12,6 @@ import {
 import User from '@modules/users/infra/models/User';
 import Ticket from '@modules/tickets/infra/models/Ticket';
 import Reservation from '@modules/reservations/infra/models/Reservation';
-import SaleTransaction from './SaleTransaction';
 
 @Entity('sales')
 class Sale {
@@ -47,9 +46,6 @@ class Sale {
 
   @OneToMany(() => Ticket, ticket => ticket.sale)
   tickets: Ticket[];
-
-  @OneToMany(() => SaleTransaction, saleTransaction => saleTransaction.sale)
-  sale_transactions: SaleTransaction[];
 }
 
 export default Sale;
