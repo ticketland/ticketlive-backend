@@ -11,11 +11,14 @@ import uploadConfig from '@config/upload';
 import aclConfig from '@config/acl';
 import AppError from '@shared/errors/AppError';
 import routes from './routes';
+import swaggerUi from 'swagger-ui-express'
+import swaggerFile from '../../../../swagger.json'
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use(routes);
 app.use(errors());
 

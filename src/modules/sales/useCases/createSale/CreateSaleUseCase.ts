@@ -101,6 +101,7 @@ export default class CreateSaleUseCase {
         await transactionalEntityManager.save(reservation);
       });
     } catch (err) {
+      console.log(err);
       throw new AppError(
         'Could not create sale at the moment. Please try again.',
         500,

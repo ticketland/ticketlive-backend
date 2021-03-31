@@ -9,23 +9,6 @@ import IHttpProvider from '@shared/container/providers/HttpProvider/models/IHttp
 import Ticket from '@modules/tickets/infra/models/Ticket';
 import Event from '@modules/events/infra/models/Event';
 
-interface TicketResponse {
-  id: string;
-  event_id: string;
-  ticket_type_id: string;
-  code: string;
-  event: Event;
-  ticket_type: {
-    id: string;
-    ticket_tier_id: string;
-    type: string;
-    description: string;
-    price_in_cents: number;
-    available_tickets: number;
-    reserved_tickets: number;
-    sold_tickets: number;
-  };
-}
 interface ReservationResponse {
   id: string;
   ext_user_id: string;
@@ -54,7 +37,7 @@ export default class ReservationsApiRepository
   constructor(
     @inject('HttpProvider')
     private httpProvider: IHttpProvider,
-  ) {}
+  ) { }
 
   private toReservation(reservationResponse: ReservationResponse): Reservation {
     const {
@@ -104,34 +87,5 @@ export default class ReservationsApiRepository
     const reservation = this.toReservation(response.data);
 
     return reservation;
-  }
-
-  public async generateTickets(reservation_id: string): Promise<Ticket[]> {
-    try {
-      const response = await this.httpProvider
-        .callAPI()
-        .post<TicketResponse[]>(`/reservations/${reservation_id}/tickets`);
-
-      const tickets = response.data.map(ticket => {
-        return Object.assign(new Ticket(), {
-          id: ticket.id,
-          ext_event_id: ticket.event_id,
-          event_name: ticket.event.name,
-          event_date: ticket.event.date,
-          ticket_type: ticket.ticket_type.type,
-          code: ticket.code,
-          price_in_cents: ticket.ticket_type.price_in_cents,
-        });
-      });
-
-      return tickets;
-    } catch (error) {
-      switch (error.response.status) {
-        case 403:
-          throw new ReservationAlreadyCompletedError();
-        default:
-          throw new ServerError();
-      }
-    }
   }
 }

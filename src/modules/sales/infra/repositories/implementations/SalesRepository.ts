@@ -25,8 +25,7 @@ export default class EntranceRepository implements ISalesRepository {
     const foundSale = await this.ormRepository.findOne({
       where: {
         id,
-      },
-      relations: ['tickets'],
+      }
     });
 
     return foundSale;

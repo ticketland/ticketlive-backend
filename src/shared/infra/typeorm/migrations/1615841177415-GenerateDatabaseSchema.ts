@@ -5,7 +5,7 @@ export default class GenerateDatabaseSchema1615841177415
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       -- Created by Vertabelo (http://vertabelo.com)
-      -- Last modification date: 2021-03-30 19:55:57.726
+      -- Last modification date: 2021-03-30 22:49:29.056
 
       -- tables
       -- Table: cash_registers
@@ -24,7 +24,7 @@ export default class GenerateDatabaseSchema1615841177415
       CREATE TABLE entrances (
           id uuid  NOT NULL DEFAULT uuid_generate_v4(),
           ticket_id uuid  NOT NULL,
-          ext_event_id integer  NOT NULL,
+          ext_event_id uuid  NOT NULL,
           ext_participant_id integer  NULL,
           created_at timestamp  NOT NULL DEFAULT NOW(),
           CONSTRAINT entrances_pk PRIMARY KEY (id)
@@ -107,11 +107,13 @@ export default class GenerateDatabaseSchema1615841177415
       CREATE TABLE tickets (
           id uuid  NOT NULL,
           sale_id uuid  NOT NULL,
-          ext_event_id integer  NOT NULL,
+          ext_event_id uuid  NOT NULL,
           participant_name varchar(255)  NULL,
-          sector varchar(50)  NOT NULL,
+          ticket_type varchar(50)  NOT NULL,
           event_date timestamp  NOT NULL,
           code varchar(10)  NOT NULL,
+          event_name varchar(50)  NOT NULL,
+          price_in_cents int  NOT NULL,
           CONSTRAINT tickets_pk PRIMARY KEY (id)
       );
 
