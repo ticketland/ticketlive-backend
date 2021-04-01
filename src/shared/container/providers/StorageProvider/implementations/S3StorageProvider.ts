@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import aws, { S3 } from 'aws-sdk';
+import fs from 'fs';
 import mime from 'mime';
+import path from 'path';
 
 // Configs
 import uploadConfig from '@config/upload';

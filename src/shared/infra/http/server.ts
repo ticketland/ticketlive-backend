@@ -3,26 +3,24 @@ import 'dotenv/config';
 import 'express-async-errors';
 import '@shared/infra/typeorm';
 import '@shared/container';
-import express, { Request, Response, NextFunction } from 'express';
 import { errors } from 'celebrate';
-import acl from 'express-acl';
 import cors from 'cors';
+import express, { Request, Response, NextFunction } from 'express';
+import swaggerUi from 'swagger-ui-express';
+
 import uploadConfig from '@config/upload';
-import aclConfig from '@config/acl';
 import AppError from '@shared/errors/AppError';
+
+import swaggerFile from '../../../../swagger.json';
 import routes from './routes';
-import swaggerUi from 'swagger-ui-express'
-import swaggerFile from '../../../../swagger.json'
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(routes);
 app.use(errors());
-
-acl.config(aclConfig.config, aclConfig.responseObject);
 
 // Global Error Handler
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {

@@ -1,7 +1,7 @@
-import path from 'path';
 import crypto from 'crypto';
-import slugify from 'slugify';
 import multer, { StorageEngine } from 'multer';
+import path from 'path';
+import slugify from 'slugify';
 
 interface IUploadConfig {
   driver: 's3' | 'disk';
