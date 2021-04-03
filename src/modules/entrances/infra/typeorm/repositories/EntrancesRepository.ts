@@ -1,8 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 
-import IEntrancesRepository from '@modules/entrances/repositories/IEntrancesRepository';
 import ICreateEntranceDTO from '@modules/entrances/dtos/ICreateEntranceDTO';
 import Entrance from '@modules/entrances/infra/typeorm/entities/Entrance';
+import IEntrancesRepository from '@modules/entrances/repositories/IEntrancesRepository';
 
 export default class EntrancesRepository implements IEntrancesRepository {
   private ormRepository: Repository<Entrance>;
@@ -29,7 +29,7 @@ export default class EntrancesRepository implements IEntrancesRepository {
     ticket_id: string,
   ): Promise<Entrance | undefined> {
     const entrance = await this.ormRepository.findOne({
-      where: { ingresso_id: ticket_id },
+      where: { ticket_id },
     });
 
     return entrance;
