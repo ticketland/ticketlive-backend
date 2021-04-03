@@ -1,8 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
 import ICreateTransactionDTO from '@modules/transactions/dtos/ICreateTransactionDTO';
 import Transaction from '@modules/transactions/infra/models/Transaction';
+import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
 
 export default class TransactionsRepository implements ITransactionsRepository {
   private ormRepository: Repository<Transaction>;
