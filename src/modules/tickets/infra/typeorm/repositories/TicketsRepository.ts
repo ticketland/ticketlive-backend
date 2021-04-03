@@ -1,13 +1,12 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
-
 import Ticket from '@modules/tickets/infra/models/Ticket';
+import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 import NotFoundError from '@shared/errors/NotFoundError';
 
 interface IFindAllTickets {
-  sale?: string
-};
+  sale?: string;
+}
 
 export default class TicketsRepository implements Partial<ITicketsRepository> {
   private ormRepository: Repository<Ticket>;
@@ -19,12 +18,11 @@ export default class TicketsRepository implements Partial<ITicketsRepository> {
   public async findAll({ sale }: IFindAllTickets): Promise<Ticket[]> {
     const ticketQuery = this.ormRepository.createQueryBuilder('tickets');
 
-    if (sale)
-      ticketQuery.andWhere('sale_id = :sale', { sale })
+    if (sale) ticketQuery.andWhere('sale_id = :sale', { sale });
 
     const tickets = await ticketQuery.getMany();
 
-    return tickets
+    return tickets;
   }
 
   public async findByIdOrFail(ticket_id: string): Promise<Ticket> {
@@ -36,6 +34,6 @@ export default class TicketsRepository implements Partial<ITicketsRepository> {
   }
 
   public async save(tickets: Ticket[]): Promise<Ticket[]> {
-    return this.ormRepository.save(tickets)
+    return this.ormRepository.save(tickets);
   }
 }
