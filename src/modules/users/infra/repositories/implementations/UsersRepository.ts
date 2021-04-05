@@ -1,13 +1,8 @@
-import { DeleteResult, getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
-// Repositories
-import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
-
-// DTOs
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-
-// Models
 import User from '@modules/users/infra/models/User';
+import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 
 export default class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
@@ -43,9 +38,5 @@ export default class UsersRepository implements IUsersRepository {
     const foundUser = await this.ormRepository.findOne(id, { relations });
 
     return foundUser;
-  }
-
-  public async delete(id: string): Promise<DeleteResult> {
-    return this.ormRepository.delete(id);
   }
 }

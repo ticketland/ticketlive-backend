@@ -4,7 +4,6 @@ import Transaction from '@modules/transactions/infra/models/Transaction';
 import ICreateCashRegisterDTO from '@modules/users/dtos/ICreateCashRegisterDTO';
 import IFilterCashRegisterDTO from '@modules/users/dtos/IFilterCashRegisterDTO';
 import CashRegister from '@modules/users/infra/models/CashRegister';
-import NotFoundError from '@shared/errors/NotFoundError';
 
 import ICashRegistersRepository from '../ICashRegistersRepository';
 

@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
 import Transaction from '@modules/transactions/infra/models/Transaction';
-import CashRegister from '@modules/users/infra/models/CashRegister';
 import ICashRegistersRepository from '@modules/users/infra/repositories/ICashRegistersRepository';
 import NotFoundError from '@shared/errors/NotFoundError';
 

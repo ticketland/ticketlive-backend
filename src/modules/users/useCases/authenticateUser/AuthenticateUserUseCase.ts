@@ -1,16 +1,12 @@
-import { inject, injectable } from 'tsyringe';
 import { sign } from 'jsonwebtoken';
+import { inject, injectable } from 'tsyringe';
 
-// Errors
-import AppError from '@shared/errors/AppError';
-
-// Configs
 import authConfig from '@config/auth';
-
-import User from '@modules/users/infra/models/User';
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 import UnauthorizedUserError from '@modules/users/errors/UnauthorizedUserError';
+import User from '@modules/users/infra/models/User';
+import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
+import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
+import AppError from '@shared/errors/AppError';
 
 interface IRequest {
   email: string;

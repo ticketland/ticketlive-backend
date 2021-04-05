@@ -1,14 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 
-// Errors
 import EmailAlreadyInUseException from '@modules/users/errors/EmailAlreadyInUseException';
-
-// Entities
 import User from '@modules/users/infra/models/User';
-
-// Interfaces
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
+import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
   name: string;
