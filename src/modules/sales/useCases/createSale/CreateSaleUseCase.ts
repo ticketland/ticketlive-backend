@@ -1,18 +1,19 @@
 import { inject, injectable } from 'tsyringe';
 import { getConnection } from 'typeorm';
 
-import defaultConfig from '@config/defaults'
-
-import ISalesRepository from '@modules/sales/infra/repositories/ISalesRepository';
-import IReservationRepository from '@modules/reservations/infra/repositories/IReservationsRepository';
+import defaultConfig from '@config/defaults';
 import ReservationAlreadyCompletedError from '@modules/reservations/errors/ReservationAlreadyCompletedError';
-import AppError from '@shared/errors/AppError';
-import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
-import Transaction from '@modules/transactions/infra/models/Transaction';
-import ReservationTicket from '@modules/reservations/infra/models/ReservationTicket'
+import ReservationTicket from '@modules/reservations/infra/models/ReservationTicket';
+import IReservationRepository from '@modules/reservations/infra/repositories/IReservationsRepository';
 import Sale from '@modules/sales/infra/models/Sale';
+import ISalesRepository from '@modules/sales/infra/repositories/ISalesRepository';
+import Transaction from '@modules/transactions/infra/models/Transaction';
+import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
+import ICashRegistersRepository from '@modules/users/infra/repositories/ICashRegistersRepository';
+import AppError from '@shared/errors/AppError';
+import NotFoundError from '@shared/errors/NotFoundError';
 
-interface Payment {
+interface IPayment {
   payment_method_id: string;
   value: number;
 }
@@ -21,12 +22,15 @@ interface IRequest {
   user_id: string;
   cash_register_id: string;
   reservation_id: string;
-  payments: Payment[];
+  payments: IPayment[];
 }
 
 @injectable()
 export default class CreateSaleUseCase {
   constructor(
+    @inject('CashRegistersRepository')
+    private cashRegistersRepository: ICashRegistersRepository,
+
     @inject('ReservationsApiRepository')
     private reservationsApiRepository: IReservationRepository,
 
@@ -38,7 +42,7 @@ export default class CreateSaleUseCase {
 
     @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
-  ) { }
+  ) {}
 
   public async execute({
     user_id,
@@ -46,6 +50,11 @@ export default class CreateSaleUseCase {
     reservation_id,
     payments,
   }: IRequest): Promise<Sale> {
+    const cashRegister = await this.cashRegistersRepository.findByID(
+      cash_register_id,
+    );
+    if (!cashRegister) throw new NotFoundError();
+
     const reservation = await this.reservationsRepository.findByIdOrFail(
       reservation_id,
     );
@@ -78,7 +87,7 @@ export default class CreateSaleUseCase {
           operation_id: defaultConfig.sales.operation_id,
           user_id,
           value: payment.value,
-          payment_method_id: payment.payment_method_id
+          payment_method_id: payment.payment_method_id,
         }),
       );
     }
@@ -88,17 +97,21 @@ export default class CreateSaleUseCase {
       completed_at: new Date(),
     });
 
+    Object.assign(cashRegister, {
+      current_balance: cashRegister.current_balance + salePrice,
+    });
+
     try {
-      await getConnection().transaction(async transactionalEntityManager => {
+      await getConnection().transaction(async (transactionalEntityManager) => {
         sale = await transactionalEntityManager.save(sale);
 
-        const createTransactions = transactions.map(
-          transaction =>
-            Object.assign(transaction, { sale_id: sale.id })
+        const createTransactions = transactions.map((transaction) =>
+          Object.assign(transaction, { sale_id: sale.id }),
         );
 
         await transactionalEntityManager.save(createTransactions);
         await transactionalEntityManager.save(reservation);
+        await transactionalEntityManager.save(cashRegister);
       });
     } catch (err) {
       console.log(err);
@@ -119,7 +132,7 @@ export default class CreateSaleUseCase {
     );
   }
 
-  private calculatePaymentAmount(payments: Payment[]) {
+  private calculatePaymentAmount(payments: IPayment[]) {
     return payments.reduce(
       (totalPayment, payment) => totalPayment + payment.value,
       0,
