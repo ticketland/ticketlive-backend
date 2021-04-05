@@ -1,8 +1,10 @@
 import { getRepository, Repository } from 'typeorm';
 
+import Transaction from '@modules/transactions/infra/models/Transaction';
 import ICreateCashRegisterDTO from '@modules/users/dtos/ICreateCashRegisterDTO';
 import IFilterCashRegisterDTO from '@modules/users/dtos/IFilterCashRegisterDTO';
 import CashRegister from '@modules/users/infra/models/CashRegister';
+import NotFoundError from '@shared/errors/NotFoundError';
 
 import ICashRegistersRepository from '../ICashRegistersRepository';
 
@@ -20,6 +22,25 @@ export default class CashRegistersRepository
     });
 
     return foundCashRegister;
+  }
+
+  public async loadTransactions(
+    cashRegister: CashRegister,
+  ): Promise<Transaction[]> {
+    const cashRegisterWithTransactions = await this.ormRepository
+      .createQueryBuilder('cashregister')
+      .where('cashregister.id = :id', { id: cashRegister.id })
+      .leftJoin('cashregister.transactions', 'transactions')
+      .addSelect([
+        'transactions.value',
+        'transactions.sale_id',
+        'transactions.payment_method_id',
+      ])
+      .leftJoin('transactions.operation', 'operation')
+      .addSelect('operation.type')
+      .getOne();
+
+    return cashRegisterWithTransactions?.transactions || [];
   }
 
   public async all({
