@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import FindAllCashRegistersUseCase from './FindAllCashRegistersUseCase';
+import ListCashRegistersUseCase from './ListCashRegistersUseCase';
 
-export default class FindAllCashRegistersController {
+export default class ListCashRegistersController {
   public async handle(request: Request, response: Response): Promise<Response> {
     const { user_id, state } = request.query;
 
-    const findAllCashRegistersUseCase = container.resolve(
-      FindAllCashRegistersUseCase,
+    const listCashRegistersUseCase = container.resolve(
+      ListCashRegistersUseCase,
     );
 
-    const cashRegisters = await findAllCashRegistersUseCase.execute({
+    const cashRegisters = await listCashRegistersUseCase.execute({
       user_id: user_id as string,
       state: state as string,
     });

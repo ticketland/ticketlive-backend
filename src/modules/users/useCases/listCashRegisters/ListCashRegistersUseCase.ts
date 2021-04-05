@@ -10,7 +10,7 @@ interface IRequest {
 }
 
 @injectable()
-class FindAllCashRegistersUseCase {
+class ListCashRegistersUseCase {
   constructor(
     @inject('CashRegistersRepository')
     private cashRegistersRepository: ICashRegistersRepository,
@@ -26,4 +26,4 @@ class FindAllCashRegistersUseCase {
   }
 }
 
-export default FindAllCashRegistersUseCase;
+export default ListCashRegistersUseCase;

@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import CloseCashRegisterController from '@modules/users/useCases/closeCashRegister/CloseCashRegisterController';
 import CreateCashRegisterController from '@modules/users/useCases/createCashRegister/CreateCashRegisterController';
-import FindAllCashRegistersController from '@modules/users/useCases/findAllCashRegisters/FindAllCashRegistersController';
+import ListCashRegistersController from '@modules/users/useCases/listCashRegisters/ListCashRegistersController';
 
 import cashRegisterTransactionsRouter from './cash.register.transactions.routes';
 
@@ -10,9 +10,9 @@ const cashRegisterRouter = Router();
 
 const closeCashRegisterController = new CloseCashRegisterController();
 const createCashRegisterController = new CreateCashRegisterController();
-const findAllCashRegistersController = new FindAllCashRegistersController();
+const listCashRegistersController = new ListCashRegistersController();
 
-cashRegisterRouter.get('/', findAllCashRegistersController.handle);
+cashRegisterRouter.get('/', listCashRegistersController.handle);
 cashRegisterRouter.post('/', createCashRegisterController.handle);
 cashRegisterRouter.patch(
   '/:cash_register_id/close',
