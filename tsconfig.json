@@ -3,10 +3,10 @@
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
+    "baseUrl": "./src",
     "strict": true,
     "strictPropertyInitialization": false,
-    "baseUrl": "./src",
     "allowJs": true,
     "paths": {
       "@modules/*": ["modules/*"],

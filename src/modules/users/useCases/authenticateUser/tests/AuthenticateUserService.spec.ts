@@ -1,40 +1,30 @@
-// Erros
+import { UsersInMemoryRepository } from '@modules/users/infra/repositories/in-memory/UsersInMemoryRepository';
+import FakeHashProvider from '@shared/container/providers/HashProvider/fakes/FakeHashProvider';
 import AppError from '@shared/errors/AppError';
 
-// Fakes
-import FakeUsersRepository from '../../repositories/fakes/FakeUsersRepository';
-import FakeHashProvider from '../../providers/HashProvider/fakes/FakeHashProvider';
+import AuthenticateUserUseCase from '../AuthenticateUserUseCase';
 
-// Services
-import CreateUserService from '../CreateUserService';
-import AuthenticateUserService from '../AuthenticateUserService';
-
-let fakeUsersRepository: FakeUsersRepository;
+let usersInMemoryRepository: UsersInMemoryRepository;
 let fakeHashProvider: FakeHashProvider;
-let createUser: CreateUserService;
-let authenticateUser: AuthenticateUserService;
+let authenticateUser: AuthenticateUserUseCase;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
+    usersInMemoryRepository = new UsersInMemoryRepository();
     fakeHashProvider = new FakeHashProvider();
 
-    authenticateUser = new AuthenticateUserService(
-      fakeUsersRepository,
+    authenticateUser = new AuthenticateUserUseCase(
+      usersInMemoryRepository,
       fakeHashProvider,
     );
   });
 
   it('should be able to authenticate', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await usersInMemoryRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
-      gender: 'male',
-      phone_number: '(42)99988-3768',
-      height: '1.85',
-      weight: '97.6',
-      goal: 'strength',
+      cpf: '000.000.000-00',
     });
 
     const response = await authenticateUser.execute({
@@ -56,15 +46,11 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    await fakeUsersRepository.create({
+    await usersInMemoryRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
-      gender: 'male',
-      phone_number: '(42)99988-3768',
-      height: '1.85',
-      weight: '97.6',
-      goal: 'strength',
+      cpf: '000.000.000-00',
     });
 
     await expect(
