@@ -1,12 +1,12 @@
 import { injectable, inject } from 'tsyringe';
 import { getConnection } from 'typeorm';
 
-import NotFoundError from '@shared/errors/NotFoundError';
 import Transaction from '@modules/transactions/infra/models/Transaction';
-import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 import IOperationsRepository from '@modules/transactions/infra/repositories/IOperationsRepository';
 import ITransactionsRepository from '@modules/transactions/infra/repositories/ITransactionsRepository';
+import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
+import NotFoundError from '@shared/errors/NotFoundError';
 
 interface IRequest {
   cash_register_id: string;
@@ -67,7 +67,7 @@ class CreateCashRegisterTransactionUseCase {
     }
 
     try {
-      await getConnection().transaction(async transactionalEntityManager => {
+      await getConnection().transaction(async (transactionalEntityManager) => {
         await transactionalEntityManager.save(createTransaction);
         await transactionalEntityManager.save(cashRegister);
       });
