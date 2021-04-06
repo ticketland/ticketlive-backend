@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
-import EmailAlreadyInUseException from '@modules/users/errors/EmailAlreadyInUseException';
+import EmailAlreadyInUseError from '@modules/users/errors/EmailAlreadyInUseError';
 import User from '@modules/users/infra/models/User';
 import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
@@ -30,7 +30,7 @@ class CreateUserService {
   }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
-    if (checkUserExists) throw new EmailAlreadyInUseException();
+    if (checkUserExists) throw new EmailAlreadyInUseError();
 
     const hashedPassword = await this.hashProvider.generateHash(password);
 
