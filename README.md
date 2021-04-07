@@ -44,6 +44,32 @@ APP_SECRET=ddb4af4874cbf48ba4aa41eabfd2a8b9
 SALE_OPERATION_ID=9bc53686-211c-4a4b-af05-80fcae5d18f9
 ```
 
+#### arquivo .env final
+```env
+# Aplication
+APP_SECRET=ddb4af4874cbf48ba4aa41eabfd2a8b9
+
+APP_API_URL=http://localhost:3333
+APP_WEB_URL=http://localhost:3000
+
+TICKETLAND_API_URL=https://ticketland-23123.herokuapp.com/
+
+SALE_OPERATION_ID=9bc53686-211c-4a4b-af05-80fcae5d18f9
+
+# Database
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=docker
+DATABASE_PASS=docker
+DATABASE_NAME=ticketlive
+
+# Mail
+MAIL_DRIVER=ethereal
+
+# Storage
+STORAGE_DRIVER=disk
+```
+
 Após esse procedimento é necessário reiniciar os containers:
 `docker-compose restart`
 
