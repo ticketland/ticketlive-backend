@@ -27,6 +27,18 @@ export default class TransactionsRepository implements ITransactionsRepository {
     return foundTransaction;
   }
 
+  public async findByCashRegisterID(
+    cash_register_id: string,
+  ): Promise<Transaction[]> {
+    const foundTransactions = await this.ormRepository.find({
+      where: {
+        cash_register_id,
+      },
+    });
+
+    return foundTransactions;
+  }
+
   public async all(): Promise<Transaction[]> {
     const foundTransactions = await this.ormRepository.find();
 
