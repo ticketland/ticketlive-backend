@@ -10,6 +10,7 @@ import {
 
 // Entities
 import Transaction from '@modules/transactions/infra/models/Transaction';
+
 import User from './User';
 
 @Entity('cash_registers')
@@ -36,11 +37,11 @@ class CashRegister {
   closed_at: string;
 
   // Relationships
-  @ManyToOne(() => User, user => user.cash_registers)
+  @ManyToOne(() => User, (user) => user.cash_registers)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => Transaction, transaction => transaction.cashRegister)
+  @OneToMany(() => Transaction, (transaction) => transaction.cashRegister)
   transactions: Transaction[];
 }
 
