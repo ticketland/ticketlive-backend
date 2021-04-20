@@ -60,6 +60,9 @@ class CashRegistersInMemoryRepository implements ICashRegistersRepository {
       user_id: data.user_id,
       opening_balance: data.opening_balance,
       current_balance: data.opening_balance,
+      closing_balance: null,
+      created_at: new Date(),
+      closed_at: null,
     });
 
     this.cashRegisters.push(cashRegister);

@@ -1,8 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 
-import NotFoundError from '@shared/errors/NotFoundError';
-import IOperationsRepository from '@modules/transactions/infra/repositories/IOperationsRepository';
 import Operation from '@modules/transactions/infra/models/Operation';
+import IOperationsRepository from '@modules/transactions/infra/repositories/IOperationsRepository';
+import NotFoundError from '@shared/errors/NotFoundError';
 
 export default class OperationsRepository implements IOperationsRepository {
   private ormRepository: Repository<Operation>;
