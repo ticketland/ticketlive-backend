@@ -1,11 +1,13 @@
+import ICashRegistersRepository from '@modules/users/infra/repositories/ICashRegistersRepository';
 import { CashRegistersInMemoryRepository } from '@modules/users/infra/repositories/in-memory/CashRegistersInMemoryRepository';
 import { UsersInMemoryRepository } from '@modules/users/infra/repositories/in-memory/UsersInMemoryRepository';
+import IUsersRepository from '@modules/users/infra/repositories/IUsersRepository';
 
 import CreateCashRegisterUseCase from '../CreateCashRegisterUseCase';
 
 let createCashRegisterUseCase: CreateCashRegisterUseCase;
-let cashRegistersInMemoryRepository: CashRegistersInMemoryRepository;
-let usersInMemoryRepository: UsersInMemoryRepository;
+let cashRegistersInMemoryRepository: ICashRegistersRepository;
+let usersInMemoryRepository: IUsersRepository;
 
 describe('Create cash register', () => {
   beforeEach(() => {
