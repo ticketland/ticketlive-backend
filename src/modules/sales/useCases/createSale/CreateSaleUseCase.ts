@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { getConnection } from 'typeorm';
 
-import defaultConfig from '@config/defaults';
+import { operationsDefaults } from '@config/defaults';
 import ReservationAlreadyCompletedError from '@modules/reservations/errors/ReservationAlreadyCompletedError';
 import ReservationTicket from '@modules/reservations/infra/models/ReservationTicket';
 import IReservationRepository from '@modules/reservations/infra/repositories/IReservationsRepository';
@@ -84,7 +84,7 @@ export default class CreateSaleUseCase {
         // eslint-disable-next-line no-await-in-loop
         await this.transactionsRepository.create({
           cash_register_id,
-          operation_id: defaultConfig.sales.operation_id,
+          operation_id: operationsDefaults.sale_operation_id,
           user_id,
           value: payment.value,
           payment_method_id: payment.payment_method_id,
