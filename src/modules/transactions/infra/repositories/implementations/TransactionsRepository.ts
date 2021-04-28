@@ -34,7 +34,7 @@ export default class TransactionsRepository implements ITransactionsRepository {
       where: {
         cash_register_id,
       },
-      relations: ['operation'],
+      relations: ['operation', 'payment_method'],
     });
 
     return foundTransactions;
@@ -42,7 +42,7 @@ export default class TransactionsRepository implements ITransactionsRepository {
 
   public async all(): Promise<Transaction[]> {
     const foundTransactions = await this.ormRepository.find({
-      relations: ['operation'],
+      relations: ['operation', 'payment_method'],
     });
 
     return foundTransactions;
