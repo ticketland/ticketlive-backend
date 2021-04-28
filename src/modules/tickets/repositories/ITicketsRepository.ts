@@ -1,5 +1,5 @@
 // Models
-import Ticket from "@modules/tickets/infra/models/Ticket";
+import Ticket from '@modules/tickets/infra/models/Ticket';
 
 interface IValidateTicket {
   ticket_id: string;
@@ -8,7 +8,7 @@ interface IValidateTicket {
 
 interface IFindAllTickets {
   sale?: string;
-};
+}
 
 export default interface ITicketsRepository {
   findAll(filters: IFindAllTickets): Promise<Ticket[]>;

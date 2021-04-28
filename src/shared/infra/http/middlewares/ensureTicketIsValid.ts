@@ -11,16 +11,21 @@ export default async function ensureTicketIsValid(
   _: Response,
   next: NextFunction,
 ): Promise<void> {
-  const { ticket_id, code } = request.body;
+  const { ticket_id, code } = request.query;
 
   const apiTicketsRepository = container.resolve(APITicketsRepository);
 
-  const validTicket = await apiTicketsRepository.validate({ ticket_id, code });
+  const validTicket = await apiTicketsRepository.validate({
+    ticket_id: ticket_id as string,
+    code: code as string,
+  });
   if (!validTicket) throw new InvalidTicketError();
 
   const entrancesRepository = new EntrancesRepository();
 
-  const entrance = await entrancesRepository.findByTicketID(ticket_id);
+  const entrance = await entrancesRepository.findByTicketID(
+    ticket_id as string,
+  );
   if (entrance) throw new TicketAlreadyUsedError();
 
   return next();

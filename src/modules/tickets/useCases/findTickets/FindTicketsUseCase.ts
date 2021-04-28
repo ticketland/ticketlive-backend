@@ -11,8 +11,8 @@ interface IRequest {
 export default class FindTicketsUseCase {
   constructor(
     @inject('TicketsRepository')
-    private ticketsRepository: ITicketsRepository
-  ) { }
+    private ticketsRepository: ITicketsRepository,
+  ) {}
   public async execute({ sale }: IRequest): Promise<Ticket[]> {
     const tickets = await this.ticketsRepository.findAll({ sale });
 
