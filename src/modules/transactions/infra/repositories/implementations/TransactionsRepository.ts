@@ -34,6 +34,7 @@ export default class TransactionsRepository implements ITransactionsRepository {
       where: {
         cash_register_id,
       },
+      relations: ['operation'],
     });
 
     return foundTransactions;
