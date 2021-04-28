@@ -40,7 +40,9 @@ export default class TransactionsRepository implements ITransactionsRepository {
   }
 
   public async all(): Promise<Transaction[]> {
-    const foundTransactions = await this.ormRepository.find();
+    const foundTransactions = await this.ormRepository.find({
+      relations: ['operation'],
+    });
 
     return foundTransactions;
   }
