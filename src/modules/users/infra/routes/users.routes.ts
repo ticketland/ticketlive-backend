@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import CreateUserController from '@modules/users/useCases/createUser/CreateUserController';
+import DeleteUserController from '@modules/users/useCases/deleteUser/DeleteUserController';
 import { ListUsersController } from '@modules/users/useCases/listUsers/ListUsersController';
 import ShowAuthenticatedUserController from '@modules/users/useCases/showAuthenticatedUser/ShowAuthenticatedUserController';
 import { UpdateUserController } from '@modules/users/useCases/updateUser/UpdateUserController';
@@ -14,6 +15,7 @@ const listUsersController = new ListUsersController();
 const createUserController = new CreateUserController();
 const showAuthenticatedUserController = new ShowAuthenticatedUserController();
 const updateUserController = new UpdateUserController();
+const deleteUserController = new DeleteUserController();
 
 usersRouter.get('/', listUsersController.handle);
 usersRouter.post('/', createUserController.handle);
@@ -23,6 +25,7 @@ usersRouter.get(
   [ensureAuthenticated],
   showAuthenticatedUserController.handle,
 );
+usersRouter.delete('/:user_id', deleteUserController.handle);
 
 usersRouter.use('/avatar', avatarUserRouter);
 

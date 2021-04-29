@@ -1,10 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
-// Entities
 import Entrance from '@modules/entrances/infra/typeorm/entities/Entrance';
-
-// Interfaces
-import EntrancesRepository from '@modules/entrances/infra/typeorm/repositories/EntrancesRepository';
 import IEntrancesRepository from '@modules/entrances/repositories/IEntrancesRepository';
 import InvalidTicketError from '@modules/reservations/errors/InvalidTicketError';
 import TicketAlreadyUsedError from '@modules/tickets/errors/TicketAlreadyUsedError';
